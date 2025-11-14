@@ -1,0 +1,34 @@
+﻿@using HemitBallBingo2025.ViewModels
+@model LotteryDrawCreateViewModel
+
+<h2>Opprett en ny BallBingo-trekning</h2>
+
+<b>Opprett</b><br />
+    @Html.AntiForgeryToken()
+<form>
+    <br />
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Navn på trekningen</label>
+        <input asp-for="Name" class="form-control form-control-lg w-100" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div class="form-group mb-3">
+        <label asp-for="Created" class="form-label">Dato for trekningen</label>
+        <input asp-for="Created" type="date" class="form-control form-control-lg w-50" />
+        <span asp-validation-for="Created" class="text-danger"></span>
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-primary btn-lg mt-3">Registrer</button>
+</form>
+
+<style>
+    
+form {
+    max-width: 600px;
+    margin: auto;
+}
+
+</<style>

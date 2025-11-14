@@ -1,5 +1,6 @@
 ﻿using Data;
 using Data.Models;
+using HemitBallBingo2025.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,32 @@ namespace HemitBallBingo2025.Controllers
         {
             ViewBag.DrawId = drawId;
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(LotteryDrawCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var draw = new LotteryDraw
+                {
+                    Name = model.Name,
+                    Created = model.Created
+                };
+
+                _context.LotteryDraws.Add(draw);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
 
         [HttpPost]

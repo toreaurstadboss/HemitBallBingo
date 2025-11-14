@@ -1,0 +1,31 @@
+﻿@model Data.Models.LotteryDraw
+
+@{
+    ViewData["Title"] = "Registrer billett";
+}
+
+<div class="container mt-4">
+    <h2><i class="fa-solid fa-ticket"></i> Registrer billett</h2>
+
+    <!-- Info om trekningen -->
+    <p><strong>Trekning:</strong> @Model.Name (@DateTime.Today.ToShortDateString())</p>
+
+    <!-- Registreringsskjema -->
+    Register
+        <input type="hidden" name="drawId" value="@Model.Id" />
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Navn</label>
+            <input type="text" name="name" id="name" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="ticketNumber" class="form-label">Loddnummer (1-300)</label>
+            <input type="number" name="ticketNumber" id="ticketNumber" class="form-control" min="1" max="300" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Registrer
+        </button>
+    </form>
+</div>
