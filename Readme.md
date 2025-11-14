@@ -22,6 +22,19 @@ En ASP.NET Core MVC-app for bingo-lotteri.
 5. Oppdater til nyeste migreringen for database slik:
    ```powershell
    dotnet ef database update --project Data
+
+
+
+
+
+## Tips
+
+Legg til Git repoet lokalt som safe directory slik feks:
+
+```powershell
+	git remote add origin https://github.com/toreaurstadboss/HemitBallBingo.git
+    git branch -M main
+    git push -u origin main
    
    
 
