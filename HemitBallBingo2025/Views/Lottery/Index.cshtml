@@ -1,4 +1,9 @@
-﻿<h1 class="display-4">Opprett ny trekning</h1>
+﻿@using Data.Models
+@using HemitBallBingo2025.ViewModels
+
+@model LotteryDrawViewModelOverview
+
+<h1 class="display-4">Opprett ny trekning</h1>
 
 <a href="/Lottery/Create" class="btn btn-success">Registrer</a>
 
@@ -6,16 +11,38 @@
 
 <br />
 
-<h2 class="display-4">Aktive trekninger</h2>
+<h2 class="display-4">Aktiv trekning</h2>
+<h5>Nyeste trekning = aktiv trekning</h5>
 <table class="table table-striped">
     <thead>
         <tr><th>Navn</th><th>Lodd</th><th>Totalpott</th><th>Handling</th></tr>
     </thead>
     <tbody>
-        @foreach (var draw in Model)
+        @foreach (var draw in Model.LotteryDraws.Skip(Model.LotteryDraws.Count - 1))
         {
             <tr>
                 <td>@draw.Name</td>
+                <td>@draw.Created.ToString("dd.MM.yyyy")</td>
+                <td>@draw.Tickets.Count</td>
+                <td>@(draw.Tickets.Count * 50) kr</td>
+             @*    <td><a href='/Lottery/Register?drawId=@draw.IdRegistrer'> lodd</a></td> *@
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2 class="display-4">Oversikt over historiske trekninger</h2>
+<table class="table table-striped">
+    <thead>
+        <tr><th>Navn</th><th>Lodd</th><th>Totalpott</th><th>Handling</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var draw in Model.LotteryDraws.Take(Model.LotteryDraws.Count -1))
+        {
+            <tr>
+                <td>@draw.Name</td>
+                <td>@draw.Created.ToString("dd.MM.yyyy")</td>
                 <td>@draw.Tickets.Count</td>
                 <td>@(draw.Tickets.Count * 50) kr</td>
              @*    <td><a href='/Lottery/Register?drawId=@draw.IdRegistrer'> lodd</a></td> *@
