@@ -1,0 +1,14 @@
+﻿<h1 class="display-3 text-success">Vinnere 🎉</h1>
+<ul class="list-group mb-5">
+    @foreach (var winner in Model)
+    {
+        <li class="list-group-item display-6">@winner.OwnerName (Lodd @winner.TicketNumber)</li>
+    }
+</ul>
+
+<h2 class="display-5 text-danger">Tapere 😢</h2>
+<ul class="list-group">
+    @foreach (var loser in ViewBag.Losers)
+    {
+        <li class="list-group-item">@loser.OwnerName (Lodd @loser.TicketNumber)</li>
+    }
