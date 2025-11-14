@@ -1,34 +1,44 @@
-﻿@using HemitBallBingo2025.ViewModels
-@model LotteryDrawCreateViewModel
+﻿@model HemitBallBingo2025.ViewModels.LotteryDrawCreateViewModel
+
+@{
+    ViewData["Title"] = "Opprett ny trekning";
+}
+
+<a href="/Lottery/Index" class="btn btn-info">🔙 Vis trekninger</a>
+
 
 <h2>Opprett en ny BallBingo-trekning</h2>
 
-<b>Opprett</b><br />
-    @Html.AntiForgeryToken()
-<form>
-    <br />
+Create
+
+<form asp-action="Create" asp-controller="Lottery" method="post" role="form">
+  
+
+    <!-- Validation summary for model-level errors -->
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <!-- Navn -->
     <div class="form-group mb-3">
-        <label asp-for="Name" class="form-label">Navn på trekningen</label>
-        <input asp-for="Name" class="form-control form-control-lg w-100" />
+        <label asp-for="Name" class="form-label">
+            Navn på trekningen <span class="text-danger">*</span>
+        </label>
+        <input asp-for="Name" name="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    <br />
 
+    <!-- Dato -->
     <div class="form-group mb-3">
-        <label asp-for="Created" class="form-label">Dato for trekningen</label>
-        <input asp-for="Created" type="date" class="form-control form-control-lg w-50" />
+        <label asp-for="Created" class="form-label">
+            Dato for trekningen <span class="text-danger">*</span>
+        </label>
+        <input asp-for="Created" name="" type="date" class="form-control" />
         <span asp-validation-for="Created" class="text-danger"></span>
     </div>
-    <br />
 
-    <button type="submit" class="btn btn-primary btn-lg mt-3">Registrer</button>
+    <button type="submit" class="btn btn-primary btn-lg">Registrer</button>
 </form>
 
-<style>
-    
-form {
-    max-width: 600px;
-    margin: auto;
+@section Scripts {
+    <!-- Ensure validation scripts are loaded -->
+   @*  <partial name="_ValidationScriptsPartial" /> *@
 }
-
-</<style>

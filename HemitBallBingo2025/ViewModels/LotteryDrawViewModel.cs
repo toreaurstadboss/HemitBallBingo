@@ -9,6 +9,7 @@ namespace HemitBallBingo2025.ViewModels
         public string Name { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Created { get; set; }
     }
 

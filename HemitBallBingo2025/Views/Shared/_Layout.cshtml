@@ -65,7 +65,18 @@
         @RenderBody()
     </div>
 
+    <!-- jQuery unobtrusive scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquerybtrusive.min.js"></script>
+
+
     <!-- Bootstrap Bundle (inkluderer Popper) -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  @*   <partial name="_ValidationScriptsPartial"></partial> *@
+
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>

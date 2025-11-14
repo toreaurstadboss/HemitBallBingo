@@ -31,7 +31,8 @@ namespace HemitBallBingo2025.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var model = new LotteryDrawCreateViewModel();
+            return View(model);
         }
 
         [HttpPost]

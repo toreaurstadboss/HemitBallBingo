@@ -1,4 +1,12 @@
-﻿<h1 class="display-4">Aktive trekninger</h1>
+﻿<h1 class="display-4">Opprett ny trekning</h1>
+
+<a href="/Lottery/Create" class="btn btn-success">Registrer</a>
+
+<br />
+
+<br />
+
+<h2 class="display-4">Aktive trekninger</h2>
 <table class="table table-striped">
     <thead>
         <tr><th>Navn</th><th>Lodd</th><th>Totalpott</th><th>Handling</th></tr>
@@ -10,7 +18,7 @@
                 <td>@draw.Name</td>
                 <td>@draw.Tickets.Count</td>
                 <td>@(draw.Tickets.Count * 50) kr</td>
-                <td><a href='/Lottery/Register?drawId=@draw.IdRegistrer'> lodd</a></td>
+             @*    <td><a href='/Lottery/Register?drawId=@draw.IdRegistrer'> lodd</a></td> *@
             </tr>
         }
     </tbody>
