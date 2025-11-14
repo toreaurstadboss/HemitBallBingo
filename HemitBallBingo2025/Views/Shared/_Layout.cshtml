@@ -14,10 +14,12 @@
         .miny {
             font-family: 'Segoe UI', Arial, sans-serif;
         }
+
         .navbar-brand {
             font-size: 1.5rem;
             font-weight: bold;
         }
+
         .nav-link.active {
             font-weight: bold;
             color: #ffc107 !important;
@@ -27,7 +29,8 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
         <div class="container-fluid">
-            <a class="navbar"> <i class="fa-solid fa-bingo"></i> 🎱 HEMIT-Ballbingo
+            <a class="navbar">
+                <i class="fa-solid fa-bingo"></i> 🎱 HEMIT-Ballbingo
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -35,23 +38,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        /Lottery
+                        <a href="/Lottery">
                             <i class="fa-solid fa-ticket"></i> Lotteri
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"                        <i class="fa-solid fa-clock-rotate-left"></i> Historikk
-                        </a>
+                        <a class="nav-link noopener norefferer"><i class="fa-solid fa-clock-rotate-left"></i> Historikk </a>
                     </li>
                     <li class="nav-item">
-                        /Admin/Prizes
-                            <i class="fa-solid fa-gift"></i> Premier
-                        </a>
+                        <a href="/Admin/Prizes"><i class="fa-solid fa-gift"></i> Premier</a>
                     </li>
                     <li class="nav-item">
-                        /Admin/Login
-                            <i class="fa-solid fa-user-shield"></i> Admin
-                        </a>
+                        <a href="Admin/Index"><i class="fa-solid fa-user-shield"></i> Admin</a>
                     </li>
                 </ul>
             </div>

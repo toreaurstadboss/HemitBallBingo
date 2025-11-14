@@ -29,6 +29,12 @@ namespace HemitBallBingo2025.Controllers
             return View();
         }
 
+        public IActionResult Index()
+        {
+            ViewBag.IsAdmin = HttpContext.Session.GetString("Admin") == "true";
+            return View();
+        }
+
         public async Task<IActionResult> History()
         {
             if (HttpContext.Session.GetString("Admin") != "true")

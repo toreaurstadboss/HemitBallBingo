@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="fa-solid fa-user-shield"></i> Admin Dashboard</h2>
+
+    <!-- Hvis ikke logget inn, vis login-knapp -->
+    @if (ViewBag.IsAdmin)
+    {
+        <div class="alert alert-warning">
+            Du er ikke logget inn som admin.
+        </div>
+        <a href="/Admin/Login">
+            <i class="fa-solid fa-lock"> Logg inn</i>
+        </a>
+    }
+    else
+    {
+        <div class="alert alert-success">
+            Du er logget inn som admin.
+        </div>
+
+        <div class="d-grid gap-3">
+            <a href="/Admin/RegisterTickets">
+                <i class="fa-solid fa-ticket"> Registrer billettinnehavere</i>
+            </a>
+
+            <a href="/Admin/History">
+                <i class="fa-solid fa-clock-rotate-left">Se historikk</i></a>
+
+            <a href="/Admin/Prizes">
+                <i class="fa-solid fa-gift"> Administrer premier</i>
+            </a>
+
+            <a href="/Admin/Logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Logg ut
+            </a>
+        </div>
+    }
+</div>
