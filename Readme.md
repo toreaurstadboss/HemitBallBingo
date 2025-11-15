@@ -39,6 +39,17 @@ Legg til Git repoet lokalt som safe directory slik feks:
 git remote add origin https://github.com/toreaurstadboss/HemitBallBingo.git
 git branch -M main
 git push -u origin main
+```
    
-   
+## Serveroppsett
 
+Oppsett TEST miljøet hvor lotteriet skal kjøre
+
+```powershell
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=nmdb19kt01;Database=HemitBallBingo;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "AdminPassword": "hemmelig123"
+}
+```
