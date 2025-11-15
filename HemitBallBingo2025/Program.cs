@@ -15,6 +15,8 @@ builder.Services.AddSession();
 
 var app = builder.Build();
 
+app.UsePathBase("/HemitBingo/");
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();

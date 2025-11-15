@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IConfiguration Configuration
+
+<!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="utf-8" />
@@ -38,7 +40,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="/Lottery">
+                        <a href="~/Lottery">
                             <i class="fa-solid fa-ticket"></i> Lotteri
                         </a>
                     </li>
@@ -46,7 +48,7 @@
                         <a class="nav-link noopener norefferer"><i class="fa-solid fa-clock-rotate-left"></i> Historikk </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/Admin/Prizes"><i class="fa-solid fa-gift"></i> Premier</a>
+                        <a href="~/Admin/Prizes"><i class="fa-solid fa-gift"></i> Premier</a>
                     </li>
                     <li class="nav-item">
                         <a href="Admin/Index"><i class="fa-solid fa-user-shield"></i> Admin</a>

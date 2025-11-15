@@ -23,18 +23,22 @@ En ASP.NET Core MVC-app for bingo-lotteri.
    ```powershell
    dotnet ef database update --project Data
 
+## Tips - Publish
 
+Publiser med feks denne kommandoen
 
+```powershell
+    dotnet publish "C:\src\HemitBallBingo\HemitBallBingo2025\HemitBallBingo2025.csproj" -c Release -o "C:\temp\HemitBallBingo\vNext"
+```
 
-
-## Tips
+## Tips - Git
 
 Legg til Git repoet lokalt som safe directory slik feks:
 
 ```powershell
-	git remote add origin https://github.com/toreaurstadboss/HemitBallBingo.git
-    git branch -M main
-    git push -u origin main
+git remote add origin https://github.com/toreaurstadboss/HemitBallBingo.git
+git branch -M main
+git push -u origin main
    
    
 
