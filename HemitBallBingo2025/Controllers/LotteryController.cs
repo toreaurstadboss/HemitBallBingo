@@ -21,14 +21,7 @@ namespace HemitBallBingo2025.Controllers
             var model = new LotteryDrawViewModelOverview();
             model.LotteryDraws.AddRange(draws);
             return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult Register(int drawId)
-        {
-            ViewBag.DrawId = drawId;
-            return View();
-        }
+        }       
 
         [HttpGet]
         public IActionResult Create()
@@ -57,16 +50,67 @@ namespace HemitBallBingo2025.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(int drawId, string name, int ticketNumber)
+        [HttpGet]
+        public async Task<IActionResult> Register(int drawId)
         {
             var draw = await _context.LotteryDraws.FindAsync(drawId);
-            if (draw != null && ticketNumber >= 1 && ticketNumber <= 300)
+
+            var tickets = new TicketsViewModel
             {
-                _context.Tickets.Add(new Ticket { OwnerName = name, TicketNumber = ticketNumber, LotteryDrawId = drawId });
-                await _context.SaveChangesAsync();
+                DrawId = drawId,
+                LotteryDraw = draw
+            };
+            return View(tickets);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterTickets(TicketsViewModel model)
+        {
+            // Validate DrawId
+            var draw = await _context.LotteryDraws.FindAsync(model.DrawId);
+            if (draw == null)
+            {
+                return NotFound();
             }
+
+            // Get the current max TicketNumber for this draw
+            int maxTicketNumber = await _context.Tickets
+                .Where(t => t.LotteryDrawId == model.DrawId)
+                .Select(t => t.TicketNumber)
+                .DefaultIfEmpty(0)
+                .MaxAsync();
+
+            // Collect valid tickets (OwnerName not empty)
+            var ticketsToAdd = new List<Ticket>();
+            foreach (var ticketInput in model.Tickets)
+            {
+                if (!string.IsNullOrWhiteSpace(ticketInput.OwnerName))
+                {
+                    maxTicketNumber++; // increment for next available number
+                    int ticketNumber = maxTicketNumber;
+
+                    ticketsToAdd.Add(new Ticket
+                    {
+                        OwnerName = ticketInput.OwnerName.Trim(),
+                        TicketNumber = ticketNumber,
+                        LotteryDrawId = model.DrawId
+                    });
+                }
+            }
+
+            // Block if no tickets entered
+            if (!ticketsToAdd.Any())
+            {
+                ModelState.AddModelError("", "Please enter at least one Owner Name.");
+                return View(model);
+            }
+
+            // Save tickets
+            _context.Tickets.AddRange(ticketsToAdd);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
+
     }
 }

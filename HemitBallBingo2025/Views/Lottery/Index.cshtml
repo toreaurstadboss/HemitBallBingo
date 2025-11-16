@@ -15,7 +15,7 @@
 <h5>Nyeste trekning = aktiv trekning</h5>
 <table class="table table-striped">
     <thead>
-        <tr><th>Navn</th><th>Lodd</th><th>Totalpott</th><th>Handling</th></tr>
+        <tr><th>Navn</th><th>Lodd</th><th>Totalpott</th><th>Handling</th><th>Legg til deltakere</th></tr>
     </thead>
     <tbody>
         @foreach (var draw in Model.LotteryDraws.Skip(Model.LotteryDraws.Count - 1))
@@ -25,7 +25,7 @@
                 <td>@draw.Created.ToString("dd.MM.yyyy")</td>
                 <td>@draw.Tickets.Count</td>
                 <td>@(draw.Tickets.Count * 50) kr</td>
-             @*    <td><a href='/Lottery/Register?drawId=@draw.IdRegistrer'> lodd</a></td> *@
+                <td><a src="btn btn-success" href='~/Lottery/Register?drawId=@draw.Id'>Registrer deltaker(e)</a></td>
             </tr>
         }
     </tbody>
