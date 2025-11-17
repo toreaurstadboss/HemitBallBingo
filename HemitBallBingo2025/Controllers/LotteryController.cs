@@ -64,7 +64,7 @@ namespace HemitBallBingo2025.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterTickets(TicketsViewModel model)
+        public async Task<IActionResult> Register(TicketsViewModel model)
         {
             // Validate DrawId
             var draw = await _context.LotteryDraws.FindAsync(model.DrawId);
@@ -74,11 +74,11 @@ namespace HemitBallBingo2025.Controllers
             }
 
             // Get the current max TicketNumber for this draw
-            int maxTicketNumber = await _context.Tickets
+            int maxTicketNumber = _context.Tickets
                 .Where(t => t.LotteryDrawId == model.DrawId)
-                .Select(t => t.TicketNumber)
+                .Select(t => t.TicketNumber).ToList()
                 .DefaultIfEmpty(0)
-                .MaxAsync();
+                .Max();
 
             // Collect valid tickets (OwnerName not empty)
             var ticketsToAdd = new List<Ticket>();
@@ -102,6 +102,8 @@ namespace HemitBallBingo2025.Controllers
             if (!ticketsToAdd.Any())
             {
                 ModelState.AddModelError("", "Please enter at least one Owner Name.");
+                model.LotteryDraw = draw;
+                model.DrawId = draw.Id;
                 return View(model);
             }
 

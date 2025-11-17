@@ -23,16 +23,19 @@
       "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery"
     },
-
     {
       "library": "jquery-validation@1.19.5",
       "destination": "wwwroot/lib/jquery-validation"
     },
-
     {
       "provider": "cdnjs",
       "library": "jquery-validation-unobtrusive@3.2.12",
       "destination": "wwwroot/lib/jquery-validation-unobtrusive"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/lib/toastr"
     }
   ]
 }
