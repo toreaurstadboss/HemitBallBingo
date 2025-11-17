@@ -63,6 +63,25 @@ namespace HemitBallBingo2025.Controllers
             return View(tickets);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> TicketsReport(int drawId)
+        {
+            var draw = await _context.LotteryDraws
+                .Include(d => d.Tickets)
+                .FirstOrDefaultAsync(d => d.Id == drawId);
+
+            if (draw == null) return NotFound();
+
+            var model = new TicketsReportViewModel
+            {
+                DrawName = draw.Name,
+                Created = draw.Created,
+                Tickets = draw.Tickets.OrderBy(t => t.TicketNumber).ToList()
+            };
+
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(TicketsViewModel model)
         {
