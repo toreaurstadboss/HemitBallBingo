@@ -1,13 +1,11 @@
 ﻿@using HemitBallBingo2025.ViewModels
 @model DrawViewModel
 
-<h2 class="text-center">
+<h5 class="text-center">
     Lottery Draw: @Model.DrawName (@Model.DrawDate.ToString("dd.MM.yyyy"))
-</h2>
-
+</h5>
 <div class="text-center mb-4">
     <form >
-        DrawNextTicket
         <input type="hidden" name="drawId" value="@Model.DrawId" />
         <button type="submit" class="btn btn-primary btn-lg">
             <i class="fas fa-random"></i> Draw Next Ticket

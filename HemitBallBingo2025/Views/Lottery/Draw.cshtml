@@ -1,30 +1,23 @@
 ﻿@using HemitBallBingo2025.ViewModels
 @model DrawViewModel
 
+<a href="~/Lottery/Index" class="btn btn-info">🔙 Vis trekninger</a>
+
 <h2 class="text-center">
     Lottery Draw: @Model.DrawName (@Model.DrawDate.ToString("dd.MM.yyyy"))
 </h2>
 
-<div class="text-center mb-4">
-    <form asp-action="DrawNextTicket" asp-controller="Lottery" method="post" role="form">
-  
-        <input type="hidden" name="drawId" value="@Model.DrawId" />
-        <button type="submit" class="btn btn-outline-success btn-lg" title="Klikk her for å trekke neste lodd!">
-            <i class="fas fa-random"></i> Trekk neste lodd !
-        </button>
-    </form>
-</div>
+<div class="row">
+    <div class="text-center mb-4">
+        <form asp-action="DrawNextTicket" asp-controller="Lottery" method="post" role="form">
 
-@if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
-{
-    <div class="drawn-ticket-container">
-        <div class="drawn-ticket-message show">
-            <i class="fas fa-times-circle"></i>
-            <span>@Model.LastDrawnMessage</span>
-        </div>
+            <input type="hidden" name="drawId" value="@Model.DrawId" />
+            <button type="submit" class="btn btn-outline-success btn-lg" title="Klikk her for å trekke neste lodd!">
+                <i class="fas fa-random"></i> Trekk neste lodd !
+            </button>
+        </form>
     </div>
-}
-
+</div>
 
 <hr />
 
@@ -36,31 +29,31 @@
     @if (Model.FirstPrize != null)
     {
         <div class="alert alert-success text-center">
-            <strong>🥇 Første premie:</strong> @Model.FirstPrize.OwnerName
+            <strong>🥇 Første premie:</strong> <h1>@Model.FirstPrize.OwnerName</h1>
             Du er KONGEN / DRONNINGA av BallBingo !
         </div>
     }
     @if (Model.SecondPrize != null)
     {
         <div class="alert alert-secondary text-center">
-            <strong>🥈 Andre premie:</strong> @Model.SecondPrize.OwnerName
+            <strong>🥈 Andre premie:</strong> <h2>@Model.SecondPrize.OwnerName</h2>
             Du er KRONPRINSEN / KRONPRINSESSA av BallBingo !
         </div>
     }
     @if (Model.ThirdPrize != null)
     {
         <div class="alert alert-info text-center">
-            <strong>🥉 Tredje premie:</strong> @Model.ThirdPrize.OwnerName
+            <strong>🥉 Tredje premie:</strong> <h3>@Model.ThirdPrize.OwnerName</h3>
             Du er PRINSEN / PRINSESSA av BallBingo !
 
         </div>
     }
 
 }
-     
+
 <!-- Badge list for remaining tickets -->
 
-<em>Remaining survivors of the knockout round!  (@Model.Tickets.Count)</em>
+<em>Remaining tickets for the knockout round!  (@Model.Tickets.Count)</em>
 <div class="d-flex flex-wrap gap-2 mt-4">
     @foreach (var ticket in Model.Tickets)
     {
@@ -69,3 +62,49 @@
         </span>
     }
 </div>
+
+@if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
+{
+    <div class="drawn-ticket-container">
+        <div class="drawn-ticket-message show">
+            <i class="fas fa-times-circle"></i>
+            <span><h3>@Model.LastDrawnMessage</h3></span>
+        </div>
+    </div>
+}
+
+<!-- Picture Box Column -->
+<div class="col-mb-2 d-flex justify-content-center align-items-center">
+    <div id="pictureBox" class="picture-box border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
+        @if (TempData["DrawnTicketImage"] != null)
+        {
+            <img src="@TempData["DrawnTicketImage"]" alt="Trekkt billett bilde" class="img-fluid" />
+        }
+    </div>
+</div>
+
+
+<style>
+    .picture-box {
+        width: 250px;
+        height: 250px;
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .picture-box:hover {
+            transform: scale(2.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .picture-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+</style>

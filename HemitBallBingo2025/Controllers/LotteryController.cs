@@ -94,6 +94,19 @@ namespace HemitBallBingo2025.Controllers
             viewModel.SecondPrize = drawnTickets.FirstOrDefault(t => t.PrizeNumber == 2);
             viewModel.FirstPrize = drawnTickets.FirstOrDefault(t => t.PrizeNumber == 1);
 
+            //Decid which image to show to end-user based on drawn tickets and prices
+
+            int drawCount = (TempData["DrawCount"] as int? ?? 0) + 1;
+            TempData["DrawCount"] = drawCount;
+
+            // Decide image based on drawCount
+            string imagePath = drawCount switch
+            {
+                _ => "/images/stairs.png"           
+            };
+
+            TempData["DrawnTicketImage"] = imagePath;
+
             return View(viewModel);
         }
 
