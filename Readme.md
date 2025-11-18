@@ -10,20 +10,23 @@ En ASP.NET Core MVC-app for bingo-lotteri.
 - Viser totalpotten (50 kr per lodd) som inngår i trekningen.
 - Bootstrap 5 og stor font for enkel opplesning
 
-## Oppsett
+## Oppsett av repo og legge til databasemigreringer
 1. Klon repo
 2. Sett connection string i `appsettings.json`
 3. Hvis man trenger å installere EF Core CLI verktøy :
    ```powershell
    dotnet tool install --global dotnet-ef --version 8.*
-4. Ved behov for å lage ny migrasjon - Kjør:
+4. Midlertidig kopier `appsettings.json` fra prosjekt `HemitBallBingo2025` til `Data`
+5. Ved behov for å lage ny migrasjon - Kjør:
    ```powershell
    dotnet ef migrations add Initial --project Data
-5. Oppdater til nyeste migreringen for database slik:
+Tips : Kjør fra kommandolinje med path som peker til dotnet hvor .NET 8 SDK erinstallert.
+6. Oppdater til nyeste migreringen for database slik:
    ```powershell
    dotnet ef database update --project Data
+7. Fjern appsettings.json fra `Data` prosjektet etterpå. Dette for å unngå trøbbel når man skal publisere en ny versjon
 
-## Tips - Publish
+## Tips - Publish av ny versjon
 
 Publiser med feks denne kommandoen
 
@@ -48,8 +51,8 @@ Oppsett TEST miljøet hvor lotteriet skal kjøre
 ```powershell
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=nmdb19kt01;Database=HemitBallBingo;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=sometestserver;Database=HemitBallBingo;Trusted_Connection=True;TrustServerCertificate=True;"
   },
-  "AdminPassword": "hemmelig123"
+  "AdminPassword": "somesecretpasswd"
 }
 ```

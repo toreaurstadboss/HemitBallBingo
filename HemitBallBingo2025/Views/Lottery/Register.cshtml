@@ -5,6 +5,8 @@
     ViewData["Title"] = "Register 1-10 Tickets";
 }
 
+<a href="~/Lottery/Index" class="btn btn-info">🔙 Vis trekninger</a>
+
 <h2>
     Registrer lodd-innhavere for trekning: @Model.LotteryDraw?.Name den @Model.LotteryDraw?.Created.ToString("dd.MM.yyyy")
 </h2>
@@ -18,7 +20,7 @@
 
     <div class="mb-3">
         <p class="text-muted">
-            Oppgi navn på opptil 10 stk til å inneha lodd i trekningen. Loddnr blir et løpenr.
+            <b>Oppgi navn på opptil 10 stk til å inneha lodd i trekningen. Loddnr blir satt til et løpenr innad for trekningen.</b>
         </p>
     </div>
 
@@ -32,7 +34,7 @@
                 <label asp-for="Tickets[i].OwnerName" class="form-label">Lodd @(i + 1)</label>
 
                 @* ONLY ONE INPUT FIELD IS NEEDED FOR OwnerName *@
-                <input asp-for="Tickets[i].OwnerName" class="form-control loddinnehaver" placeholder="<Oppgi NAVN>" />
+                <input asp-for="Tickets[i].OwnerName" class="form-control loddinnehaver" />
 
                 @* Ensure the validation span is within the loop so it can target the specific input error *@
                 <span asp-validation-for="Tickets[i].OwnerName" class="text-danger"></span>
