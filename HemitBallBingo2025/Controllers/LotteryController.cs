@@ -97,13 +97,36 @@ namespace HemitBallBingo2025.Controllers
             //Decid which image to show to end-user based on drawn tickets and prices
 
             int drawCount = (TempData["DrawCount"] as int? ?? 0) + 1;
+            if (drawCount > 15)
+            {
+                drawCount = 1;
+            }
             TempData["DrawCount"] = drawCount;
 
             // Decide image based on drawCount
             string imagePath = drawCount switch
             {
+                1 => "/images/stairs.png",
+                6 or 11 => "/images/guardsrules.png",
+                2 or 7 or 12 => "/images/piggybank.png",
+                3 or 8 or 13 => "/images/scared.png",
+                4 or 9 or 14 => "/images/thebully.png",
+                5 or 10 or 15 => "/images/mommasboy.png",
                 _ => "/images/stairs.png"           
             };
+
+            if (viewModel.ThirdPrize != null)
+            {
+                imagePath = "/images/oldguy.png";
+            }
+            if (viewModel.SecondPrize != null)
+            {
+                imagePath = "/images/thanos.png";
+            }
+            if (viewModel.FirstPrize != null)
+            {
+                imagePath = "/images/herosmilingplayer456.png";
+            }
 
             TempData["DrawnTicketImage"] = imagePath;
 
