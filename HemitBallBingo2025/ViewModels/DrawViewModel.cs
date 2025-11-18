@@ -14,6 +14,10 @@ namespace HemitBallBingo2025.ViewModels
         // Optional: For showing the last drawn ticket
         public string? LastDrawnMessage { get; set; }
 
+        public Ticket? ThirdPrize { get; set; }
+        public Ticket? SecondPrize { get; set; }
+        public Ticket? FirstPrize { get; set; }
+
     }
 
 }

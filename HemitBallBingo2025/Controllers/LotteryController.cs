@@ -73,7 +73,7 @@ namespace HemitBallBingo2025.Controllers
             }
 
             var tickets = await _context.Tickets
-                .Where(t => t.LotteryDrawId == drawId)
+                .Where(t => t.LotteryDrawId == drawId && !t.IsDrawn)
                 .OrderBy(t => t.TicketNumber)
                 .ToListAsync();
 
@@ -85,6 +85,14 @@ namespace HemitBallBingo2025.Controllers
                 Tickets = tickets,
                 LastDrawnMessage = TempData["DrawnTicket"] as string
             };
+
+            // Fetch drawn tickets for prizes
+            var drawnTickets = await _context.Tickets
+                .Where(t => t.LotteryDrawId == drawId && t.IsDrawn && t.PrizeNumber != null)
+                .ToListAsync();
+            viewModel.ThirdPrize = drawnTickets.FirstOrDefault(t => t.PrizeNumber == 3);
+            viewModel.SecondPrize = drawnTickets.FirstOrDefault(t => t.PrizeNumber == 2);
+            viewModel.FirstPrize = drawnTickets.FirstOrDefault(t => t.PrizeNumber == 1);
 
             return View(viewModel);
         }
@@ -104,12 +112,19 @@ namespace HemitBallBingo2025.Controllers
             }
 
             // Use a strong random generator
+
             using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
             var randomBytes = new byte[4];
             rng.GetBytes(randomBytes);
-            int index = BitConverter.ToInt32(randomBytes, 0) & int.MaxValue % tickets.Count;
+
+            // Convert to positive integer
+            int randomInt = BitConverter.ToInt32(randomBytes, 0) & int.MaxValue;
+
+            // Get index within range
+            int index = randomInt % tickets.Count;
 
             var drawnTicket = tickets[index];
+
 
             // Prepare message
             string message;
@@ -123,6 +138,7 @@ namespace HemitBallBingo2025.Controllers
                     1 => $"🥇 Winner 1st Prize! {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
                     _ => $"Better Luck Next Time: {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})"
                 };
+                drawnTicket.PrizeNumber = tickets.Count; // 3 for third, 2 for second, 1 for first
             }
             else
             {

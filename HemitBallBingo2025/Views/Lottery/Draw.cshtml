@@ -9,8 +9,8 @@
     <form asp-action="DrawNextTicket" asp-controller="Lottery" method="post" role="form">
   
         <input type="hidden" name="drawId" value="@Model.DrawId" />
-        <button type="submit" class="btn btn-primary btn-lg">
-            <i class="fas fa-random"></i> Draw Next Ticket
+        <button type="submit" class="btn btn-outline-success btn-lg" title="Klikk her for å trekke neste lodd!">
+            <i class="fas fa-random"></i> Trekk neste lodd !
         </button>
     </form>
 </div>
@@ -25,11 +25,46 @@
     </div>
 }
 
+
+<hr />
+
+<!-- List of winners in the lottery draw -->
+@if (Model.ThirdPrize != null || Model.SecondPrize != null || Model.FirstPrize != null)
+{
+    <h3 class="text-center text-warning mb-4">🏆 Gratulerer til vinnerne! 🏆</h3>
+
+    @if (Model.FirstPrize != null)
+    {
+        <div class="alert alert-success text-center">
+            <strong>🥇 Første premie:</strong> @Model.FirstPrize.OwnerName
+            Du er KONGEN / DRONNINGA av BallBingo !
+        </div>
+    }
+    @if (Model.SecondPrize != null)
+    {
+        <div class="alert alert-secondary text-center">
+            <strong>🥈 Andre premie:</strong> @Model.SecondPrize.OwnerName
+            Du er KRONPRINSEN / KRONPRINSESSA av BallBingo !
+        </div>
+    }
+    @if (Model.ThirdPrize != null)
+    {
+        <div class="alert alert-info text-center">
+            <strong>🥉 Tredje premie:</strong> @Model.ThirdPrize.OwnerName
+            Du er PRINSEN / PRINSESSA av BallBingo !
+
+        </div>
+    }
+
+}
+     
 <!-- Badge list for remaining tickets -->
+
+<em>Remaining survivors of the knockout round!  (@Model.Tickets.Count)</em>
 <div class="d-flex flex-wrap gap-2 mt-4">
     @foreach (var ticket in Model.Tickets)
     {
-        <span class="badge bg-primary text-white fs-5 px-3 py-2">
+        <span class="badge bg-info text-black text-white fs-5 px-3 py-2">
             @ticket.OwnerName
         </span>
     }
