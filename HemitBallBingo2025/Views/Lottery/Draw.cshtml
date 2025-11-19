@@ -3,18 +3,21 @@
 
 <a href="~/Lottery/Index" class="btn btn-info">🔙 Vis trekninger</a>
 
-<div class="container-fluid">
+<div class="float-end">
+
+    <!-- Picture Box Column -->
+ 
+        <div id="pictureBox" class="picture-box img-fluid border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
+            @if (TempData["DrawnTicketImage"] != null)
+            {
+                <img src="@TempData["DrawnTicketImage"]" alt="Trekkt billett bilde" class="img-fluid" />
+            }
+        </div>
+        </div>
+ 
 
     <div class="row">
-        <!-- Picture Box Column -->
-        <div class="col-mb-2">
-            <div id="pictureBox" class="picture-box border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
-                @if (TempData["DrawnTicketImage"] != null)
-                {
-                    <img src="@TempData["DrawnTicketImage"]" alt="Trekkt billett bilde" class="img-fluid" />
-                }
-            </div>
-        </div>
+     
 
         <div class="col-mb-2">
             <h2 class="text-center">
@@ -35,10 +38,20 @@
 
     </div>
 
+@if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
+{
+    <div class="drawn-ticket-container">
+        <div class="drawn-ticket-message show">
+            <i class="fas fa-smile text-warning display-6"></i>
+            <span class="display-4 text-uppercase">@Model.LastDrawnMessage</span>
+        </div>
+    </div>
+}
+
     <!-- List of winners in the lottery draw -->
 @if (Model.ThirdPrize != null || Model.SecondPrize != null || Model.FirstPrize != null)
 {
-        <h3 class="text-center text-warning mb-4">🏆 Gratulerer til vinnerne! 🏆</h3>
+        <h3 class="text-center text-warning mb-4">🏆 Gratulerer til vinnere! 🏆</h3>
 
     @if (Model.FirstPrize != null)
     {
@@ -76,16 +89,6 @@
             </span>
         }
     </div>
-
-@if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
-{
-        <div class="drawn-ticket-container">
-            <div class="drawn-ticket-message show">
-                <i class="fas fa-times-circle"></i>
-                <span><h3>@Model.LastDrawnMessage</h3></span>
-            </div>
-        </div>
-}
 
     <!-- Picture Box Column -->
     <div class="col-mb-2 d-flex justify-content-center align-items-center">

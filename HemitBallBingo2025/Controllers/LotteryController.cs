@@ -178,7 +178,7 @@ namespace HemitBallBingo2025.Controllers
             }
             else
             {
-                message = $"Better Luck Next Time: {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})";
+                message = $"Bedre lykke neste gang:{Environment.NewLine} {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})";
             }
 
             TempData["DrawnTicket"] = message;

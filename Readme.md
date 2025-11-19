@@ -56,3 +56,13 @@ Oppsett TEST miljøet hvor lotteriet skal kjøre
   "AdminPassword": "somesecretpasswd"
 }
 ```
+
+## Reset a vote 
+
+For å restarte alle trekningene
+
+use HemitBallbingoDb
+go
+update Tickets
+set IsDrawn = 0, PrizeNumber = null
+select * from Tickets
