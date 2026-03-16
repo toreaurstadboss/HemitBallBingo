@@ -293,7 +293,7 @@ button {
 }
 
 #theme-actions > .theme-button[data-theme="blue"][data-selected="true"] > i {
-  color: rgb(var(--blue));
+  color: #FFFF00;
 }
 
 #theme-actions > .theme-button[data-theme="pink"][data-selected="true"] > i {

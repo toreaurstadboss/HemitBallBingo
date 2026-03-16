@@ -46,12 +46,14 @@ const createDigit = (digit, trackIndex) => {
     return digitEl;
 };
 
+const isDigit = character => character >= '0' && character <= '9';
+
 const setup = () => {
     let index = 0;
     const prizeText = getPrizeText();
     for (const character of getFormattedPrize()) {
         prizeText.appendChild(
-            isNaN(character) ? createCharacter(character) : createDigit(character, index++)
+            isDigit(character) ? createDigit(character, index++) : createCharacter(character)
         );
     }
 };
