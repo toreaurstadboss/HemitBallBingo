@@ -15,6 +15,11 @@ namespace HemitBallBingo2025.Controllers
             _context = context;
         }
 
+        public IActionResult Intro()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             var draws = await _context.LotteryDraws.Include(d => d.Tickets).ToListAsync();

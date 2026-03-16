@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug HemitBallBingo",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/HemitBallBingo2025/bin/Debug/net8.0/HemitBallBingo2025.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/HemitBallBingo2025",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5192"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/HemitBallBingo2025/Views"
+            },
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/HemitBingo/"
+            }
+        },
+    ]
+}

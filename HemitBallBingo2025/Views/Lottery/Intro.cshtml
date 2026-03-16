@@ -1,0 +1,322 @@
+@{
+    Layout = null;
+    ViewData["Title"] = "Hemit Ball Bingo - Intro";
+}
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        svg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 900px;
+            height: auto;
+            opacity: 0;
+        }
+
+        .intro-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            white-space: nowrap;
+            text-shadow: 0 0 40px rgba(254, 52, 119, 0.6), 0 0 80px rgba(254, 52, 119, 0.3);
+            z-index: 10;
+        }
+
+        .intro-text .highlight {
+            color: #fe3477;
+        }
+
+        .enter-btn {
+            position: fixed;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 48px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+            background: transparent;
+            border: 2px solid #fe3477;
+            border-radius: 50px;
+            cursor: pointer;
+            opacity: 0;
+            z-index: 10;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        .enter-btn:hover {
+            background: #fe3477;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(254, 52, 119, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Korean Logo SVG (from CodePen by Mamboleoo) -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="400 0 1100 960">
+        <defs>
+            <filter id="dropshadow_top">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                <feOffset dx="4" dy="-4" result="offsetblur"></feOffset>
+                <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.5"></feFuncA>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
+            <filter id="dropshadow_bottom" filterUnits="userSpaceOnUse">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                <feOffset dx="4" dy="4" result="offsetblur"></feOffset>
+                <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.5"></feFuncA>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
+            <filter id="dropshadow_shade" filterUnits="userSpaceOnUse" x="400">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+                <feOffset dx="4" dy="-4" result="offsetblur"></feOffset>
+                <feComponentTransfer>
+                    <feFuncA type="linear" slope="0"></feFuncA>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
+            <clipPath id="clip-path">
+                <rect x="976.09" y="453.96" width="147.83" height="159.59" fill="none" />
+            </clipPath>
+            <clipPath id="clip-path-2">
+                <polygon id="ct_mask_top" points="1141.08 443.3 959.88 135.78 638.48 135.78 620.66 443.3 620.66 471.3 1157.57 471.3 1141.08 443.3" fill="none" />
+            </clipPath>
+            <clipPath id="clip-path-3">
+                <polygon id="ct_mask_bottom" points="959.88 135.78 762.19 471.3 1157.57 471.3 959.88 135.78" fill="none" />
+            </clipPath>
+        </defs>
+        <g>
+            <g id="Top_circle">
+                <path id="tc_top" d="M959.88,68a72.21,72.21,0,1,1-72.21,72.21A72.21,72.21,0,0,1,959.88,68h327.74" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="457 800" />
+                <path id="tc_right" d="M1274,377.71a32.48,32.48,0,1,0-32.47,32.47A32.48,32.48,0,0,0,1274,377.71l-.4-323.42" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="240 600" />
+            </g>
+            <line id="right_line1" x1="1368.87" y1="281.63" x2="1368.87" y2="448.39" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <line id="right_line3" x1="1139.51" y1="462.74" x2="1139.51" y2="578.54" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <line id="right_line4" x1="1061.44" y1="526.08" x2="1139.51" y2="526.08" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <g clip-path="url(#clip-path)">
+                <polyline id="seven" points="1008 634.32 1084.21 475.75 1017.9 475.75" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="242 500" filter="url(#dropshadow_bottom)" />
+            </g>
+            <line id="top_line1" x1="1052.14" y1="281.63" x2="1052.14" y2="448.39" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <line id="top_line2" x1="974.94" y1="375.4" x2="1052.14" y2="375.4" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <circle id="bottom_circle" cx="847.47" cy="520.64" r="32" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="242 500" />
+            <circle id="top_circle_2" cx="944.88" cy="375.4" r="32" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="242 500" />
+            <line id="left_line_2" x1="694.86" y1="375.4" x2="821.69" y2="375.4" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <g id="Center_triangle">
+                <g clip-path="url(#clip-path-2)">
+                    <g>
+                        <g id="ct_top">
+                            <polygon id="ct_r" points="1109.58 445.03 944.87 161.26 959.88 135.78 1142.12 445.07 1109.58 445.03" fill="#fff" />
+                            <polygon id="ct_l" points="978.51 167.4 810.21 444.9 777.79 444.82 959.88 135.78 978.51 167.4 978.51 167.4" fill="#fff" />
+                        </g>
+                        <g clip-path="url(#clip-path-3)">
+                            <polygon id="ct_b" points="1141.08 443.3 1157.57 471.3 762.19 471.3 778.68 443.3 811.18 443.3 1108.58 443.3 1141.08 443.3" fill="#fff" />
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <line id="left_line_3" x1="594.07" y1="495.4" x2="594.07" y2="414.25" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+            <g id="left_circles">
+                <path id="left_circle1" d="M628.56,869.94H959.88a68.23,68.23,0,1,0-68.23-68.23,68.23,68.23,0,0,0,68.23,68.23" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="430 850" />
+                <path id="left_circle2" filter="url(#dropshadow_bottom)" d="M642.56,375.4a48.5,48.5,0,1,1-48.49-48.49,48.49,48.49,0,0,1,48.49,48.49V883.94" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" stroke-dasharray="400 850" />
+            </g>
+        </g>
+        <line id="left_line_4" filter="url(#dropshadow_bottom)" x1="481.35" y1="495.4" x2="674.73" y2="495.4" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+        <g id="Bottom_Rect">
+            <line id="br_top" x1="780.25" y1="515.2" x2="1139.51" y2="515.2" fill="none" stroke="#fff" stroke-linecap="square" stroke-miterlimit="10" stroke-width="28" />
+            <line id="br_right" x1="1139.51" y1="515.2" x2="1139.51" y2="801.71" fill="none" stroke="#fff" stroke-linecap="square" stroke-miterlimit="10" stroke-width="28" />
+            <line id="br_bottom" filter="url(#dropshadow_shade)" x1="780.25" y1="801.71" x2="1139.51" y2="801.71" fill="none" stroke="#fff" stroke-linecap="square" stroke-miterlimit="10" stroke-width="28" />
+            <line id="br_left" filter="url(#dropshadow_shade)" x1="780.25" y1="515.2" x2="780.25" y2="801.71" fill="none" stroke="#fff" stroke-linecap="square" stroke-miterlimit="10" stroke-width="28" />
+        </g>
+        <line id="left_line1" filter="url(#dropshadow_bottom)" x1="859.64" y1="281.63" x2="859.64" y2="448.39" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+        <line id="right_line2" filter="url(#dropshadow_bottom)" x1="1193.48" y1="462.74" x2="1193.48" y2="650.29" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="28" />
+    </svg>
+
+    <!-- Title text that appears after Korean logo animation -->
+    <div class="intro-text" id="introText">
+        <span class="highlight">Hemit</span> Ball Bingo
+    </div>
+
+    <!-- Enter button -->
+    <a href="@Url.Action("Index", "Lottery")" class="enter-btn" id="enterBtn">Enter</a>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        console.clear();
+
+        const red = "#fe3477";
+        // Duration multiplier — doubled per user request
+        const D = 2;
+
+        /* Initial SVG state setup */
+        gsap.set("#Top_circle #tc_right", { strokeDashoffset: -501, opacity: 0 });
+        gsap.set("#left_circle2", { strokeDashoffset: 467, opacity: 0 });
+        gsap.set("#left_circle1", { strokeDashoffset: -328 });
+        gsap.set("#right_line1", { attr: { y2: 281.63 } });
+        gsap.set("#right_line2", { attr: { y1: 650.29 } });
+        gsap.set("#right_line3", { attr: { y1: 578.54 } });
+        gsap.set("#right_line4", { attr: { x2: 1061.44 } });
+        gsap.set("#seven", { strokeDashoffset: 245 });
+        gsap.set("#bottom_circle", { r: 0 });
+        gsap.set("#top_circle_2", { r: 0 });
+        gsap.set("#top_line1", { attr: { y1: 448.39 } });
+        gsap.set("#top_line2", { attr: { x1: 1052.14 } });
+        gsap.set("#left_line1", { attr: { y2: 281.63 } });
+        gsap.set("#left_line_2", { attr: { x2: 694.86 } });
+        gsap.set("#left_line_3", { attr: { y2: 495.4 } });
+        gsap.set("#left_line_4", { attr: { x1: 674.73 } });
+        gsap.set("svg", { opacity: 1 });
+
+        /* ======================== */
+        /*  MAIN ANIMATION TIMELINE */
+        /* ======================== */
+        const tl = gsap.timeline({ delay: 0.5 });
+
+        /* --- Center triangle --- */
+        tl.to("#Center_triangle #ct_l", { x: 280, duration: 3.4 * D, ease: "power2.inOut" }, 0);
+        tl.to("#Center_triangle #ct_r", { x: 140, y: 237, duration: 3.4 * D, ease: "power2.inOut" }, 0);
+        tl.to("#Center_triangle #ct_top, #ct_mask_top", { x: -340, duration: 3.5 * D, ease: "none" }, 3.4 * D);
+        tl.to("#ct_b, #ct_mask_bottom", { x: -60, duration: 0.67 * D, ease: "none" }, (3.4 * D + (3.5 * D - 0.67 * D)));
+
+        /* --- Top circle --- */
+        tl.to("#Top_circle #tc_top", { strokeDashoffset: -753, duration: 2.16 * D, ease: "power2.inOut" }, 1.45 * D);
+        tl.set("#Top_circle #tc_top", { opacity: 0 }, (1.45 * D + 2.16 * D));
+        tl.set("#Top_circle #tc_right", { opacity: 1 }, (1.45 * D + 2.16 * D));
+        tl.to("#Top_circle #tc_right", { strokeDashoffset: 27, duration: 3 * D, ease: "power2.inOut" }, (1.45 * D + 2.16 * D));
+
+        /* --- Bottom Rect --- */
+        tl.to("#Bottom_Rect #br_top", { attr: { x1: 1368 }, duration: 2 * D, ease: "power3.inOut" }, 1 * D);
+        tl.to("#Bottom_Rect #br_top", { attr: { x2: 1368 }, duration: 2 * D, ease: "power1.inOut" }, 1 * D);
+        tl.to("#Bottom_Rect #br_top", { attr: { y1: 471, y2: 559 }, duration: 0.8 * D, ease: "power1.inOut" }, (1.45 * D + 2 * D));
+
+        tl.to("#Bottom_Rect #br_right", { attr: { y1: 471 }, duration: 1.8 * D, ease: "power3.inOut" }, 1.45 * D);
+        tl.to("#Bottom_Rect #br_right", { attr: { y2: 471 }, duration: 1.8 * D, ease: "power1.inOut" }, 1.45 * D);
+        tl.to("#Bottom_Rect #br_right", { attr: { x1: 1280, x2: 1368 }, duration: 1 * D, ease: "power1.inOut" }, (1.45 * D + 1.8 * D));
+
+        tl.to("#Bottom_Rect #br_bottom", { attr: { x1: 1280 }, duration: 3 * D, ease: "power3.inOut" }, 0);
+        tl.to("#Bottom_Rect #br_bottom", { attr: { x2: 1280 }, duration: 3 * D, ease: "power1.inOut" }, 0);
+        tl.to("#Bottom_Rect #br_bottom", { attr: { y1: 471 }, duration: 1 * D, ease: "power1.inOut" }, 3.5 * D);
+        tl.to("#Bottom_Rect #br_bottom", { attr: { y2: 559 }, duration: 2 * D, ease: "power2.inOut" }, 3.5 * D);
+
+        tl.to("#Bottom_Rect #br_left", { attr: { y1: 559, y2: 559 }, duration: 1 * D, ease: "power2.inOut" }, 2 * D);
+        tl.to("#Bottom_Rect #br_left", { attr: { x1: 1280 }, duration: 4 * D, ease: "power2.inOut" }, 3.2 * D);
+        tl.to("#Bottom_Rect #br_left", { attr: { x2: 1368 }, duration: 3 * D, ease: "power1.inOut" }, 3.2 * D);
+
+        /* --- Random lines --- */
+        tl.to("#right_line1", { attr: { y2: 440 }, duration: 1 * D, ease: "power2.inOut" }, 4.8 * D);
+        tl.to("#right_line2", { attr: { y1: 462 }, duration: 1 * D, ease: "power1.inOut" }, 4.4 * D);
+        tl.to("#right_line3", { attr: { y1: 462 }, duration: 1.5 * D, ease: "power1.inOut" }, 2.8 * D);
+        tl.to("#right_line4", { attr: { x2: 1139.51 }, duration: 1 * D, ease: "power1.inOut" }, 5.6 * D);
+        tl.to("#seven", { strokeDashoffset: 0, duration: 1.6 * D, ease: "power1.inOut" }, 4.8 * D);
+        tl.to("#bottom_circle", { r: 32, duration: 2 * D, ease: "power1.out" }, 4 * D);
+        tl.to("#top_line1", { attr: { y1: 281 }, duration: 2 * D, ease: "power1.inOut" }, 4.7 * D);
+        tl.to("#top_line2", { attr: { x1: 974.94 }, duration: 1 * D, ease: "power1.inOut" }, 5.5 * D);
+        tl.to("#top_circle_2", { r: 32, duration: 2 * D, ease: "power1.out" }, 4.4 * D);
+        tl.to("#left_line1", { attr: { y2: 448.39 }, duration: 1.4 * D, ease: "power2.inOut" }, 5 * D);
+        tl.to("#left_line_2", { attr: { x2: 821.69 }, duration: 1.4 * D, ease: "power2.inOut" }, 3.4 * D);
+        tl.to("#left_line_3", { attr: { y2: 414.25 }, duration: 1 * D, ease: "power2.inOut" }, 5 * D);
+        tl.to("#left_line_4", { attr: { x1: 481.35 }, duration: 3.5 * D, ease: "power2.inOut" }, 0);
+
+        /* --- Left circle --- */
+        tl.to("#left_circle1", { strokeDashoffset: 400, duration: 2.8 * D, ease: "power2.inOut" }, 1 * D);
+        tl.set("#left_circle1", { opacity: 0 }, (1 * D + 2.8 * D));
+        tl.set("#left_circle2", { opacity: 1 }, (1 * D + 2.8 * D));
+        tl.to("#left_circle2", { strokeDashoffset: 1343, duration: 3.5 * D, ease: "power2.inOut" }, (1 * D + 3 * D));
+
+        /* --- Colors turn red --- */
+        tl.to("#br_top, #br_bottom, #br_right, #br_left, #left_circle2", { stroke: red, duration: 3 * D, ease: "power2.inOut" }, 4.5 * D);
+        tl.to("#ct_b, #ct_r, #ct_l", { fill: red, duration: 3 * D, ease: "power2.inOut" }, 4.5 * D);
+
+        /* --- Shadows --- */
+        tl.set("#Center_triangle", { attr: { filter: "url(#dropshadow_top)" } }, 3 * D);
+        tl.to("#dropshadow_shade feFuncA", { attr: { slope: 0.5 }, duration: 0.4 * D }, 4 * D);
+        tl.to("#dropshadow_shade feFuncA", { attr: { slope: 0 }, duration: 1 * D }, 5.5 * D);
+
+        /* ================================= */
+        /*  AFTER KOREAN LOGO: FADE OUT SVG  */
+        /*  & REVEAL "Hemit Ball Bingo"      */
+        /* ================================= */
+
+        // Fade out the Korean SVG logo
+        tl.to("svg", {
+            opacity: 0,
+            scale: 0.8,
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, "+=1");
+
+        // Reveal the "Hemit Ball Bingo" title text
+        tl.fromTo("#introText",
+            { opacity: 0, scale: 1.3, y: 30 },
+            { opacity: 1, scale: 1, y: 0, duration: 2, ease: "power3.out" },
+            "-=0.5"
+        );
+
+        // Glow pulse on the title
+        tl.to("#introText", {
+            textShadow: "0 0 60px rgba(254, 52, 119, 0.9), 0 0 120px rgba(254, 52, 119, 0.5)",
+            duration: 1.2,
+            ease: "power1.inOut",
+            yoyo: true,
+            repeat: 1
+        });
+
+        // Show the enter button
+        tl.to("#enterBtn", {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, "-=1");
+    </script>
+</body>
+</html>
