@@ -51,31 +51,59 @@
     <!-- List of winners in the lottery draw -->
 @if (Model.ThirdPrize != null || Model.SecondPrize != null || Model.FirstPrize != null)
 {
-        <h3 class="text-center text-warning mb-4">🏆 Gratulerer til vinnere! 🏆</h3>
+    <h3 class="text-center text-warning mb-3">🏆 Gratulerer til vinnere! 🏆</h3>
 
-    @if (Model.FirstPrize != null)
-    {
-            <div class="alert alert-success text-center">
-                <strong>🥇 Første premie:</strong> <h1>@Model.FirstPrize.OwnerName</h1>
-                Du er KONGEN / DRONNINGA av BallBingo !
-            </div>
-    }
-    @if (Model.SecondPrize != null)
-    {
-            <div class="alert alert-secondary text-center">
-                <strong>🥈 Andre premie:</strong> <h2>@Model.SecondPrize.OwnerName</h2>
-                Du er KRONPRINSEN / KRONPRINSESSA av BallBingo !
-            </div>
-    }
-    @if (Model.ThirdPrize != null)
-    {
-            <div class="alert alert-info text-center">
-                <strong>🥉 Tredje premie:</strong> <h3>@Model.ThirdPrize.OwnerName</h3>
-                Du er PRINSEN / PRINSESSA av BallBingo !
+    <div class="podium-stage">
 
+        <!-- 2nd place — left, medium height -->
+        <div class="podium-slot podium-slot--2 @(Model.SecondPrize == null ? "podium-slot--empty" : "")">
+            @if (Model.SecondPrize != null)
+            {
+                <div class="podium-winner-info">
+                    <div class="podium-medal">🥈</div>
+                    <div class="podium-name">@Model.SecondPrize.OwnerName</div>
+                    <div class="podium-subtitle">Du er KRONPRINSEN /<br/>KRONPRINSESSA av BallBingo!</div>
+                    <div class="podium-ticket">Lodd #@Model.SecondPrize.TicketNumber</div>
+                </div>
+            }
+            <div class="podium-block podium-block--silver">
+                <span class="podium-rank">2</span>
             </div>
-    }
+        </div>
 
+        <!-- 1st place — center, tallest -->
+        <div class="podium-slot podium-slot--1 @(Model.FirstPrize == null ? "podium-slot--empty" : "")">
+            @if (Model.FirstPrize != null)
+            {
+                <div class="podium-winner-info">
+                    <div class="podium-medal">🥇</div>
+                    <div class="podium-name">@Model.FirstPrize.OwnerName</div>
+                    <div class="podium-subtitle">Du er KONGEN /<br/>DRONNINGA av BallBingo!</div>
+                    <div class="podium-ticket">Lodd #@Model.FirstPrize.TicketNumber</div>
+                </div>
+            }
+            <div class="podium-block podium-block--gold">
+                <span class="podium-rank">1</span>
+            </div>
+        </div>
+
+        <!-- 3rd place — right, shortest -->
+        <div class="podium-slot podium-slot--3 @(Model.ThirdPrize == null ? "podium-slot--empty" : "")">
+            @if (Model.ThirdPrize != null)
+            {
+                <div class="podium-winner-info">
+                    <div class="podium-medal">🥉</div>
+                    <div class="podium-name">@Model.ThirdPrize.OwnerName</div>
+                    <div class="podium-subtitle">Du er PRINSEN /<br/>PRINSESSA av BallBingo!</div>
+                    <div class="podium-ticket">Lodd #@Model.ThirdPrize.TicketNumber</div>
+                </div>
+            }
+            <div class="podium-block podium-block--bronze">
+                <span class="podium-rank">3</span>
+            </div>
+        </div>
+
+    </div>
 }
 
     <!-- Badge list for remaining tickets -->
@@ -126,4 +154,93 @@
                 object-fit: cover;
                 border-radius: 8px;
             }
+
+        /* ── Podium ─────────────────────────────────── */
+        .podium-stage {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 2rem;
+            max-width: 720px;
+        }
+
+        .podium-slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .podium-slot--empty .podium-winner-info {
+            visibility: hidden;
+        }
+
+        /* winner card above the block */
+        .podium-winner-info {
+            text-align: center;
+            padding: 10px 8px;
+            margin-bottom: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .podium-medal {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .podium-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            word-break: break-word;
+            margin: 4px 0;
+        }
+
+        .podium-subtitle {
+            font-size: 0.75rem;
+            color: #aaa;
+            line-height: 1.3;
+        }
+
+        .podium-ticket {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+
+        /* the coloured podium block itself */
+        .podium-block {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .podium-block--gold {
+            height: 120px;
+            background: linear-gradient(160deg, #ffe066 0%, #f5a623 60%, #c47f00 100%);
+            box-shadow: 0 4px 18px rgba(245,166,35,0.45);
+        }
+
+        .podium-block--silver {
+            height: 85px;
+            background: linear-gradient(160deg, #e8e8e8 0%, #b0b0b0 60%, #808080 100%);
+            box-shadow: 0 4px 14px rgba(150,150,150,0.35);
+        }
+
+        .podium-block--bronze {
+            height: 60px;
+            background: linear-gradient(160deg, #f0c080 0%, #cd7f32 60%, #8b4513 100%);
+            box-shadow: 0 4px 14px rgba(205,127,50,0.35);
+        }
+
+        .podium-rank {
+            font-size: 2rem;
+            font-weight: 900;
+            color: rgba(0,0,0,0.35);
+            user-select: none;
+        }
     </style>

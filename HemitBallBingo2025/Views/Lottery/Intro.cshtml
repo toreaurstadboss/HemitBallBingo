@@ -1,3 +1,5 @@
+@using HemitBallBingo2025.ViewModels
+@model IntroViewModel
 @{
     Layout = null;
     ViewData["Title"] = "Hemit Ball Bingo - Intro";
@@ -84,6 +86,26 @@
             background: #fe3477;
             color: #fff;
             box-shadow: 0 0 30px rgba(254, 52, 119, 0.6);
+        }
+
+        .draw-info {
+            position: fixed;
+            bottom: 7%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .draw-info .draw-name {
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -187,7 +209,14 @@
     </div>
 
     <!-- Enter button -->
-    <a href="@Url.Action("Index", "Lottery")" class="enter-btn" id="enterBtn">Enter</a>
+    <a href="@Url.Action("Draw", "Lottery", new { drawId = Model.DrawId })" class="enter-btn" id="enterBtn">Start trekning</a>
+
+    <!-- Draw info shown below the button -->
+    <div class="draw-info" id="drawInfo">
+        <span class="draw-name">@Model.DrawName</span>
+        &nbsp;&middot;&nbsp;
+        @Model.DrawDate.ToString("dd.MM.yyyy")
+    </div>
 
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -195,8 +224,8 @@
         console.clear();
 
         const red = "#fe3477";
-        // Duration multiplier — doubled per user request
-        const D = 2;
+        // Duration multiplier (1 = original CodePen speed)
+        const D = 0.5;
 
         /* Initial SVG state setup */
         gsap.set("#Top_circle #tc_right", { strokeDashoffset: -501, opacity: 0 });
@@ -311,12 +340,18 @@
             repeat: 1
         });
 
-        // Show the enter button
+        // Show the enter button and draw info together
         tl.to("#enterBtn", {
             opacity: 1,
             duration: 1,
             ease: "power2.out"
         }, "-=1");
+
+        tl.to("#drawInfo", {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, "<");
     </script>
 </body>
 </html>

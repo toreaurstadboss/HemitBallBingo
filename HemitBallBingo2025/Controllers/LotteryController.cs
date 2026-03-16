@@ -15,13 +15,23 @@ namespace HemitBallBingo2025.Controllers
             _context = context;
         }
 
-        public IActionResult Intro()
+        public async Task<IActionResult> Intro(int drawId)
         {
-            return View();
+            var draw = await _context.LotteryDraws.FindAsync(drawId);
+            if (draw == null) return NotFound();
+
+            var model = new IntroViewModel
+            {
+                DrawId = drawId,
+                DrawName = draw.Name,
+                DrawDate = draw.Created
+            };
+            return View(model);
         }
 
         public async Task<IActionResult> Index()
         {
+
             var draws = await _context.LotteryDraws.Include(d => d.Tickets).ToListAsync();
             var model = new LotteryDrawViewModelOverview();
             model.LotteryDraws.AddRange(draws);

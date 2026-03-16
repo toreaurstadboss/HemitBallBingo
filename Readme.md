@@ -57,6 +57,13 @@ Oppsett TEST miljøet hvor lotteriet skal kjøre
 }
 ```
 
+(Adjust in case in LocalDEV the place where SQLEXPRESS is running to work with it in LocalDEV or default)
+```
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=HemitBallbingoDb;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+```
+
 ## Reset a vote 
 
 For å restarte alle trekningene
