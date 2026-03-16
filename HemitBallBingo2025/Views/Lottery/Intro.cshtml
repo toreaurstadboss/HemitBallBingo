@@ -11,7 +11,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"]</title>
-    <style>
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/intro.css" />
+    <style type="text/css">
         * {
             margin: 0;
             padding: 0;
@@ -23,26 +26,23 @@
             overflow: hidden;
             width: 100vw;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
         }
 
         svg {
             position: fixed;
-            top: 50%;
+            top: 2vh;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             width: 80%;
             max-width: 900px;
+            max-height: 48vh;
             height: auto;
             opacity: 0;
         }
 
         .intro-text {
             position: fixed;
-            top: 50%;
+            top: 25vh;
             left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -63,7 +63,7 @@
 
         .enter-btn {
             position: fixed;
-            bottom: 15%;
+            bottom: 8%;
             left: 50%;
             transform: translateX(-50%);
             padding: 14px 48px;
@@ -75,10 +75,11 @@
             border: 2px solid #fe3477;
             border-radius: 50px;
             cursor: pointer;
-            opacity: 0;
             z-index: 10;
             letter-spacing: 0.1em;
             text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
             transition: background 0.3s, color 0.3s, box-shadow 0.3s;
         }
 
@@ -90,7 +91,7 @@
 
         .draw-info {
             position: fixed;
-            bottom: 7%;
+            bottom: 2%;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -98,7 +99,6 @@
             color: rgba(255, 255, 255, 0.55);
             font-size: 2rem;
             letter-spacing: 0.08em;
-            opacity: 0;
             z-index: 10;
             white-space: nowrap;
         }
@@ -108,61 +108,27 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        .mute-btn {
+        .audio-bar {
             position: fixed;
-            top: 18px;
-            right: 22px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
+            top: 14px;
+            right: 16px;
             z-index: 100;
-            transition: background 0.2s;
-            opacity: 0;
-            color: #fff;
-            user-select: none;
         }
 
-        .mute-btn:hover { background: rgba(255,255,255,0.2); }
-
-        .sound-prompt {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            cursor: pointer;
-            gap: 12px;
+        .audio-bar audio {
+            height: 32px;
+            width: 240px;
+            filter: invert(0.9);
+            opacity: 0.75;
         }
 
-        .sound-prompt span {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.7);
-            letter-spacing: 0.08em;
-        }
-
-        .sound-prompt .sp-icon {
-            font-size: 3rem;
-            animation: pulse-icon 1.4s ease-in-out infinite;
-        }
-
-        @@keyframes pulse-icon {
-            0%, 100% { transform: scale(1);   opacity: 1; }
-            50%       { transform: scale(1.15); opacity: 0.7; }
+        .audio-bar audio:hover {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
+
 
     <!-- Korean Logo SVG (from CodePen by Mamboleoo) -->
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="400 0 1100 960">
@@ -262,8 +228,7 @@
     </div>
 
     <!-- Enter button -->
-    <a href="@Url.Action("Draw", "Lottery", new { drawId = Model.DrawId })" class="enter-btn" id="enterBtn"
-       onclick="fadeOutAudio(this); return false;">Start trekning</a>
+    <a href="@Url.Action("Draw", "Lottery", new { drawId = Model.DrawId })" class="enter-btn" id="enterBtn">Start trekning</a>
 
     <!-- Draw info shown below the button -->
     <div class="draw-info" id="drawInfo">
@@ -272,206 +237,58 @@
         @Model.DrawDate.ToString("dd.MM.yyyy")
     </div>
 
-    <!-- Audio -->
-    <audio id="introAudio" preload="auto" loop>
-        <source src="~/audio/squid_game_flute.mp3" type="audio/mpeg">
-    </audio>
+    <!-- prize counter -->
 
-    <!-- Mute toggle (top-right corner, fades in with animation) -->
-    <button class="mute-btn" id="muteBtn" title="Lyd av/på" aria-label="Lyd av/på">🔊</button>
+<div id="app">
+  <div id="prize">
+    <div id="prize-lines" class="prize-filter"></div>
+    <div id="prize-shadow" class="prize-filter"></div>
+    <h2 id="prize-label">
+      <span class="asterisk">*</span>
+      <span>PREMIEPOTT</span>
+      <span class="asterisk">*</span>      
+    </h2>
+    <h1 id="prize-text"></h1>
+  </div>
+  
+  <div id="shapes">
+    <i class="fa-regular fa-circle"></i>
+    <i class="fa-regular fa-square"></i>
+    <i class="fa-regular fa-triangle"></i>
+  </div>
+  
+  <div id="actions-wrapper">
+    <div id="actions">
+      <div id="theme-actions">
+        <button class="theme-button" data-theme="green" data-selected="true">
+          <i class="fa-regular fa-circle"></i>
+        </button>
+        <button class="theme-button" data-theme="blue">
+          <i class="fa-regular fa-square"></i>
+        </button>
+        <button class="theme-button" data-theme="pink">
+          <i class="fa-regular fa-triangle"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Shown only when browser blocks autoplay -->
-    <div class="sound-prompt" id="soundPrompt" style="display:none">
-        <div class="sp-icon">🔊</div>
-        <span>Trykk for å starte lyd</span>
+
+    <!-- Audio (autoplay — use the built-in browser controls) -->
+    <div class="audio-bar">
+        <audio controls autoplay>
+            <source src="~/audio/squid_game_flute.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script>
-        console.clear();
-
-        /* ── Audio setup ─────────────────────────────────────────── */
-        const audio       = document.getElementById('introAudio');
-        const muteBtn     = document.getElementById('muteBtn');
-        const soundPrompt = document.getElementById('soundPrompt');
-
-        audio.volume = 0.75;
-
-        function startAudio() {
-            const p = audio.play();
-            if (p !== undefined) {
-                p.then(() => {
-                    // Autoplay succeeded — show mute button
-                    gsap.to(muteBtn, { opacity: 1, duration: 0.6, delay: 0.5 });
-                }).catch(() => {
-                    // Blocked — show tap-to-play overlay
-                    soundPrompt.style.display = 'flex';
-                });
-            }
-        }
-
-        soundPrompt.addEventListener('click', () => {
-            audio.play();
-            soundPrompt.style.display = 'none';
-            gsap.to(muteBtn, { opacity: 1, duration: 0.6 });
-        });
-
-        muteBtn.addEventListener('click', () => {
-            if (audio.muted) {
-                audio.muted = false;
-                muteBtn.textContent = '🔊';
-            } else {
-                audio.muted = true;
-                muteBtn.textContent = '🔇';
-            }
-        });
-
-        startAudio();
-
-        function fadeOutAudio(link) {
-            const dest = link.href;
-            const step = 0.05;
-            const interval = setInterval(() => {
-                if (audio.volume > step) {
-                    audio.volume = Math.max(0, audio.volume - step);
-                } else {
-                    clearInterval(interval);
-                    window.location.href = dest;
-                }
-            }, 40);
-        }
-        /* ─────────────────────────────────────────────────────────── */
-
-        const red = "#fe3477";
-        // Duration multiplier (1 = original CodePen speed)
-        const D = 0.5;
-
-        /* Initial SVG state setup */
-        gsap.set("#Top_circle #tc_right", { strokeDashoffset: -501, opacity: 0 });
-        gsap.set("#left_circle2", { strokeDashoffset: 467, opacity: 0 });
-        gsap.set("#left_circle1", { strokeDashoffset: -328 });
-        gsap.set("#right_line1", { attr: { y2: 281.63 } });
-        gsap.set("#right_line2", { attr: { y1: 650.29 } });
-        gsap.set("#right_line3", { attr: { y1: 578.54 } });
-        gsap.set("#right_line4", { attr: { x2: 1061.44 } });
-        gsap.set("#seven", { strokeDashoffset: 245 });
-        gsap.set("#bottom_circle", { r: 0 });
-        gsap.set("#top_circle_2", { r: 0 });
-        gsap.set("#top_line1", { attr: { y1: 448.39 } });
-        gsap.set("#top_line2", { attr: { x1: 1052.14 } });
-        gsap.set("#left_line1", { attr: { y2: 281.63 } });
-        gsap.set("#left_line_2", { attr: { x2: 694.86 } });
-        gsap.set("#left_line_3", { attr: { y2: 495.4 } });
-        gsap.set("#left_line_4", { attr: { x1: 674.73 } });
-        gsap.set("svg", { opacity: 1 });
-
-        /* ======================== */
-        /*  MAIN ANIMATION TIMELINE */
-        /* ======================== */
-        const tl = gsap.timeline({ delay: 0.5 });
-
-        /* --- Center triangle --- */
-        tl.to("#Center_triangle #ct_l", { x: 280, duration: 3.4 * D, ease: "power2.inOut" }, 0);
-        tl.to("#Center_triangle #ct_r", { x: 140, y: 237, duration: 3.4 * D, ease: "power2.inOut" }, 0);
-        tl.to("#Center_triangle #ct_top, #ct_mask_top", { x: -340, duration: 3.5 * D, ease: "none" }, 3.4 * D);
-        tl.to("#ct_b, #ct_mask_bottom", { x: -60, duration: 0.67 * D, ease: "none" }, (3.4 * D + (3.5 * D - 0.67 * D)));
-
-        /* --- Top circle --- */
-        tl.to("#Top_circle #tc_top", { strokeDashoffset: -753, duration: 2.16 * D, ease: "power2.inOut" }, 1.45 * D);
-        tl.set("#Top_circle #tc_top", { opacity: 0 }, (1.45 * D + 2.16 * D));
-        tl.set("#Top_circle #tc_right", { opacity: 1 }, (1.45 * D + 2.16 * D));
-        tl.to("#Top_circle #tc_right", { strokeDashoffset: 27, duration: 3 * D, ease: "power2.inOut" }, (1.45 * D + 2.16 * D));
-
-        /* --- Bottom Rect --- */
-        tl.to("#Bottom_Rect #br_top", { attr: { x1: 1368 }, duration: 2 * D, ease: "power3.inOut" }, 1 * D);
-        tl.to("#Bottom_Rect #br_top", { attr: { x2: 1368 }, duration: 2 * D, ease: "power1.inOut" }, 1 * D);
-        tl.to("#Bottom_Rect #br_top", { attr: { y1: 471, y2: 559 }, duration: 0.8 * D, ease: "power1.inOut" }, (1.45 * D + 2 * D));
-
-        tl.to("#Bottom_Rect #br_right", { attr: { y1: 471 }, duration: 1.8 * D, ease: "power3.inOut" }, 1.45 * D);
-        tl.to("#Bottom_Rect #br_right", { attr: { y2: 471 }, duration: 1.8 * D, ease: "power1.inOut" }, 1.45 * D);
-        tl.to("#Bottom_Rect #br_right", { attr: { x1: 1280, x2: 1368 }, duration: 1 * D, ease: "power1.inOut" }, (1.45 * D + 1.8 * D));
-
-        tl.to("#Bottom_Rect #br_bottom", { attr: { x1: 1280 }, duration: 3 * D, ease: "power3.inOut" }, 0);
-        tl.to("#Bottom_Rect #br_bottom", { attr: { x2: 1280 }, duration: 3 * D, ease: "power1.inOut" }, 0);
-        tl.to("#Bottom_Rect #br_bottom", { attr: { y1: 471 }, duration: 1 * D, ease: "power1.inOut" }, 3.5 * D);
-        tl.to("#Bottom_Rect #br_bottom", { attr: { y2: 559 }, duration: 2 * D, ease: "power2.inOut" }, 3.5 * D);
-
-        tl.to("#Bottom_Rect #br_left", { attr: { y1: 559, y2: 559 }, duration: 1 * D, ease: "power2.inOut" }, 2 * D);
-        tl.to("#Bottom_Rect #br_left", { attr: { x1: 1280 }, duration: 4 * D, ease: "power2.inOut" }, 3.2 * D);
-        tl.to("#Bottom_Rect #br_left", { attr: { x2: 1368 }, duration: 3 * D, ease: "power1.inOut" }, 3.2 * D);
-
-        /* --- Random lines --- */
-        tl.to("#right_line1", { attr: { y2: 440 }, duration: 1 * D, ease: "power2.inOut" }, 4.8 * D);
-        tl.to("#right_line2", { attr: { y1: 462 }, duration: 1 * D, ease: "power1.inOut" }, 4.4 * D);
-        tl.to("#right_line3", { attr: { y1: 462 }, duration: 1.5 * D, ease: "power1.inOut" }, 2.8 * D);
-        tl.to("#right_line4", { attr: { x2: 1139.51 }, duration: 1 * D, ease: "power1.inOut" }, 5.6 * D);
-        tl.to("#seven", { strokeDashoffset: 0, duration: 1.6 * D, ease: "power1.inOut" }, 4.8 * D);
-        tl.to("#bottom_circle", { r: 32, duration: 2 * D, ease: "power1.out" }, 4 * D);
-        tl.to("#top_line1", { attr: { y1: 281 }, duration: 2 * D, ease: "power1.inOut" }, 4.7 * D);
-        tl.to("#top_line2", { attr: { x1: 974.94 }, duration: 1 * D, ease: "power1.inOut" }, 5.5 * D);
-        tl.to("#top_circle_2", { r: 32, duration: 2 * D, ease: "power1.out" }, 4.4 * D);
-        tl.to("#left_line1", { attr: { y2: 448.39 }, duration: 1.4 * D, ease: "power2.inOut" }, 5 * D);
-        tl.to("#left_line_2", { attr: { x2: 821.69 }, duration: 1.4 * D, ease: "power2.inOut" }, 3.4 * D);
-        tl.to("#left_line_3", { attr: { y2: 414.25 }, duration: 1 * D, ease: "power2.inOut" }, 5 * D);
-        tl.to("#left_line_4", { attr: { x1: 481.35 }, duration: 3.5 * D, ease: "power2.inOut" }, 0);
-
-        /* --- Left circle --- */
-        tl.to("#left_circle1", { strokeDashoffset: 400, duration: 2.8 * D, ease: "power2.inOut" }, 1 * D);
-        tl.set("#left_circle1", { opacity: 0 }, (1 * D + 2.8 * D));
-        tl.set("#left_circle2", { opacity: 1 }, (1 * D + 2.8 * D));
-        tl.to("#left_circle2", { strokeDashoffset: 1343, duration: 3.5 * D, ease: "power2.inOut" }, (1 * D + 3 * D));
-
-        /* --- Colors turn red --- */
-        tl.to("#br_top, #br_bottom, #br_right, #br_left, #left_circle2", { stroke: red, duration: 3 * D, ease: "power2.inOut" }, 4.5 * D);
-        tl.to("#ct_b, #ct_r, #ct_l", { fill: red, duration: 3 * D, ease: "power2.inOut" }, 4.5 * D);
-
-        /* --- Shadows --- */
-        tl.set("#Center_triangle", { attr: { filter: "url(#dropshadow_top)" } }, 3 * D);
-        tl.to("#dropshadow_shade feFuncA", { attr: { slope: 0.5 }, duration: 0.4 * D }, 4 * D);
-        tl.to("#dropshadow_shade feFuncA", { attr: { slope: 0 }, duration: 1 * D }, 5.5 * D);
-
-        /* ================================= */
-        /*  AFTER KOREAN LOGO: FADE OUT SVG  */
-        /*  & REVEAL "Hemit Ball Bingo"      */
-        /* ================================= */
-
-        // Fade out the Korean SVG logo
-        tl.to("svg", {
-            opacity: 0,
-            scale: 0.8,
-            duration: 1.5,
-            ease: "power2.inOut"
-        }, "+=1");
-
-        // Reveal the "Hemit Ball Bingo" title text
-        tl.fromTo("#introText",
-            { opacity: 0, scale: 1.3, y: 30 },
-            { opacity: 1, scale: 1, y: 0, duration: 2, ease: "power3.out" },
-            "-=0.5"
-        );
-
-        // Glow pulse on the title
-        tl.to("#introText", {
-            textShadow: "0 0 60px rgba(254, 52, 119, 0.9), 0 0 120px rgba(254, 52, 119, 0.5)",
-            duration: 1.2,
-            ease: "power1.inOut",
-            yoyo: true,
-            repeat: 1
-        });
-
-        // Show the enter button and draw info together
-        tl.to("#enterBtn", {
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out"
-        }, "-=1");
-
-        tl.to("#drawInfo", {
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out"
-        }, "<");
+        window.introConfig = { prizeAmount: @Model.PrizeAmount };
     </script>
+    <script src="~/js/intro.js"></script>
+
+
 </body>
 </html>

@@ -17,14 +17,17 @@ namespace HemitBallBingo2025.Controllers
 
         public async Task<IActionResult> Intro(int drawId)
         {
-            var draw = await _context.LotteryDraws.FindAsync(drawId);
+            var draw = await _context.LotteryDraws
+                .Include(d => d.Tickets)
+                .FirstOrDefaultAsync(d => d.Id == drawId);
             if (draw == null) return NotFound();
 
             var model = new IntroViewModel
             {
                 DrawId = drawId,
                 DrawName = draw.Name,
-                DrawDate = draw.Created
+                DrawDate = draw.Created,
+                ParticipantCount = draw.Tickets.Count
             };
             return View(model);
         }
