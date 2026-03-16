@@ -107,6 +107,59 @@
             font-weight: 700;
             color: rgba(255, 255, 255, 0.8);
         }
+
+        .mute-btn {
+            position: fixed;
+            top: 18px;
+            right: 22px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 100;
+            transition: background 0.2s;
+            opacity: 0;
+            color: #fff;
+            user-select: none;
+        }
+
+        .mute-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .sound-prompt {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            cursor: pointer;
+            gap: 12px;
+        }
+
+        .sound-prompt span {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 0.08em;
+        }
+
+        .sound-prompt .sp-icon {
+            font-size: 3rem;
+            animation: pulse-icon 1.4s ease-in-out infinite;
+        }
+
+        @@keyframes pulse-icon {
+            0%, 100% { transform: scale(1);   opacity: 1; }
+            50%       { transform: scale(1.15); opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
@@ -209,7 +262,8 @@
     </div>
 
     <!-- Enter button -->
-    <a href="@Url.Action("Draw", "Lottery", new { drawId = Model.DrawId })" class="enter-btn" id="enterBtn">Start trekning</a>
+    <a href="@Url.Action("Draw", "Lottery", new { drawId = Model.DrawId })" class="enter-btn" id="enterBtn"
+       onclick="fadeOutAudio(this); return false;">Start trekning</a>
 
     <!-- Draw info shown below the button -->
     <div class="draw-info" id="drawInfo">
@@ -218,10 +272,76 @@
         @Model.DrawDate.ToString("dd.MM.yyyy")
     </div>
 
+    <!-- Audio -->
+    <audio id="introAudio" preload="auto" loop>
+        <source src="~/audio/luis_humanoide-macabre-choir-inspired-by-squid-game-287425.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Mute toggle (top-right corner, fades in with animation) -->
+    <button class="mute-btn" id="muteBtn" title="Lyd av/på" aria-label="Lyd av/på">🔊</button>
+
+    <!-- Shown only when browser blocks autoplay -->
+    <div class="sound-prompt" id="soundPrompt" style="display:none">
+        <div class="sp-icon">🔊</div>
+        <span>Trykk for å starte lyd</span>
+    </div>
+
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script>
         console.clear();
+
+        /* ── Audio setup ─────────────────────────────────────────── */
+        const audio       = document.getElementById('introAudio');
+        const muteBtn     = document.getElementById('muteBtn');
+        const soundPrompt = document.getElementById('soundPrompt');
+
+        audio.volume = 0.75;
+
+        function startAudio() {
+            const p = audio.play();
+            if (p !== undefined) {
+                p.then(() => {
+                    // Autoplay succeeded — show mute button
+                    gsap.to(muteBtn, { opacity: 1, duration: 0.6, delay: 0.5 });
+                }).catch(() => {
+                    // Blocked — show tap-to-play overlay
+                    soundPrompt.style.display = 'flex';
+                });
+            }
+        }
+
+        soundPrompt.addEventListener('click', () => {
+            audio.play();
+            soundPrompt.style.display = 'none';
+            gsap.to(muteBtn, { opacity: 1, duration: 0.6 });
+        });
+
+        muteBtn.addEventListener('click', () => {
+            if (audio.muted) {
+                audio.muted = false;
+                muteBtn.textContent = '🔊';
+            } else {
+                audio.muted = true;
+                muteBtn.textContent = '🔇';
+            }
+        });
+
+        startAudio();
+
+        function fadeOutAudio(link) {
+            const dest = link.href;
+            const step = 0.05;
+            const interval = setInterval(() => {
+                if (audio.volume > step) {
+                    audio.volume = Math.max(0, audio.volume - step);
+                } else {
+                    clearInterval(interval);
+                    window.location.href = dest;
+                }
+            }, 40);
+        }
+        /* ─────────────────────────────────────────────────────────── */
 
         const red = "#fe3477";
         // Duration multiplier (1 = original CodePen speed)
