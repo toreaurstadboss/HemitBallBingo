@@ -275,9 +275,9 @@
 </div>
 
 
-    <!-- Audio (no autoplay — use the built-in browser controls) -->
+    <!-- Audio (autoplay — use the built-in browser controls) -->
     <div class="audio-bar">
-        <audio controls autoplay">
+        <audio controls id="introAudio">
             <source src="~/audio/squid_game_flute.mp3" type="audio/mpeg">
         </audio>
     </div>
@@ -288,7 +288,12 @@
         window.introConfig = { prizeAmount: @Model.PrizeAmount };
     </script>
     <script src="~/js/intro.js"></script>
-
-
+    <script>
+        const audio = document.getElementById("introAudio");
+        const tryPlay = () => audio.play().catch(() => {});
+        tryPlay();
+        document.addEventListener("click", tryPlay, { once: true });
+        document.addEventListener("keydown", tryPlay, { once: true });
+    </script>
 </body>
 </html>
