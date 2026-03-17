@@ -6,37 +6,39 @@
 <div class="float-end">
 
     <!-- Picture Box Column -->
- 
-        <div id="pictureBox2" class="picture-box img-fluid border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
-            @if (TempData["DrawnTicketImage"] != null)
-            {
-                <img src='@TempData["DrawnTicketImage"]' alt="Trekkt billett bilde" class="img-fluid" />
-            }
-        </div>
-        </div>
- 
 
-    <div class="row">
-     
+    <div id="pictureBox2" class="picture-box img-fluid border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
+        @if (TempData["DrawnTicketImage"] != null)
+        {
+            <img src='@TempData["DrawnTicketImage"]' alt="Trekkt billett bilde" class="img-fluid" />
+        }
+    </div>
 
-        <div class="col-mb-2">
-            <h2 class="text-center">
-                Lottery Draw: @Model.DrawName (@Model.DrawDate.ToString("dd.MM.yyyy"))
-            </h2>
+    <h5>Bingo-lodd igjen i lodd-bolla :  (@Model.Tickets.Count)</h5>
 
-        </div>
+</div>
 
-        <div class="text-center mb-2">
-            <form asp-action="DrawNextTicket" asp-controller="Lottery" method="post" role="form">
+<div class="row">
 
-                <input type="hidden" name="drawId" value="@Model.DrawId" />
-                <button type="submit" class="btn btn-outline-success btn-lg" title="Klikk her for å trekke neste lodd!">
-                    <i class="fas fa-random"></i> Trekk neste lodd !
-                </button>
-            </form>
-        </div>
+
+    <div class="col-mb-2">
+        <h2 class="text-center">
+            Lottery Draw: @Model.DrawName (@Model.DrawDate.ToString("dd.MM.yyyy"))
+        </h2>
 
     </div>
+
+    <div class="text-center mb-2">
+        <form asp-action="DrawNextTicket" asp-controller="Lottery" method="post" role="form">
+
+            <input type="hidden" name="drawId" value="@Model.DrawId" />
+            <button type="submit" class="btn btn-outline-success btn-lg" title="Klikk her for å trekke neste lodd!">
+                <i class="fas fa-random"></i> Trekk neste lodd !
+            </button>
+        </form>
+    </div>
+
+</div>
 
 @if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
 {
@@ -48,7 +50,7 @@
     </div>
 }
 
-    <!-- List of winners in the lottery draw -->
+<!-- List of winners in the lottery draw -->
 @if (Model.ThirdPrize != null || Model.SecondPrize != null || Model.FirstPrize != null)
 {
     <h3 class="text-center text-warning mb-3">🏆 Gratulerer til vinnere! 🏆</h3>
@@ -62,7 +64,7 @@
                 <div class="podium-winner-info">
                     <div class="podium-medal">🥈</div>
                     <div class="podium-name">@Model.SecondPrize.OwnerName</div>
-                    <div class="podium-subtitle">Du er KRONPRINSEN /<br/>KRONPRINSESSA av BallBingo!</div>
+                    <div class="podium-subtitle">Du er KRONPRINSEN /<br />KRONPRINSESSA av BallBingo!</div>
                     <div class="podium-ticket">Lodd #@Model.SecondPrize.TicketNumber</div>
                 </div>
             }
@@ -78,7 +80,7 @@
                 <div class="podium-winner-info">
                     <div class="podium-medal">🥇</div>
                     <div class="podium-name">@Model.FirstPrize.OwnerName</div>
-                    <div class="podium-subtitle">Du er KONGEN /<br/>DRONNINGA av BallBingo!</div>
+                    <div class="podium-subtitle">Du er KONGEN /<br />DRONNINGA av BallBingo!</div>
                     <div class="podium-ticket">Lodd #@Model.FirstPrize.TicketNumber</div>
                 </div>
             }
@@ -94,7 +96,7 @@
                 <div class="podium-winner-info">
                     <div class="podium-medal">🥉</div>
                     <div class="podium-name">@Model.ThirdPrize.OwnerName</div>
-                    <div class="podium-subtitle">Du er PRINSEN /<br/>PRINSESSA av BallBingo!</div>
+                    <div class="podium-subtitle">Du er PRINSEN /<br />PRINSESSA av BallBingo!</div>
                     <div class="podium-ticket">Lodd #@Model.ThirdPrize.TicketNumber</div>
                 </div>
             }
@@ -106,141 +108,139 @@
     </div>
 }
 
-    <!-- Badge list for remaining tickets -->
+<!-- Badge list for remaining tickets -->
 
-    <em>Remaining tickets for the knockout round!  (@Model.Tickets.Count)</em>
-    <div class="d-flex flex-wrap gap-2 mt-4">
-        @foreach (var ticket in Model.Tickets)
+<div class="d-flex flex-wrap gap-2 mt-4">
+    @foreach (var ticket in Model.Tickets)
+    {
+        <span class="badge bg-info text-black text-white fs-5 px-3 py-2">
+            @ticket.OwnerName
+        </span>
+    }
+</div>
+
+<!-- Picture Box Column -->
+<div class="col-mb-2 d-flex justify-content-center align-items-center">
+    <div id="pictureBox" class="picture-box border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
+        @if (TempData["DrawnTicketImage"] != null)
         {
-            <span class="badge bg-info text-black text-white fs-5 px-3 py-2">
-                @ticket.OwnerName
-            </span>
+            <img src='@TempData["DrawnTicketImage"]' alt="Trekkt billett bilde" class="img-fluid" />
         }
-    </div>
-
-    <!-- Picture Box Column -->
-    <div class="col-mb-2 d-flex justify-content-center align-items-center">
-        <div id="pictureBox" class="picture-box border rounded p-3" style="width: 250px; height: 250px; background-color: #f8f9fa;">
-            @if (TempData["DrawnTicketImage"] != null)
-            {
-                <img src='@TempData["DrawnTicketImage"]' alt="Trekkt billett bilde" class="img-fluid" />
-            }
-        </div>
     </div>
 
 </div>
 
 
-    <style>
-        .picture-box {
-            width: 250px;
-            height: 250px;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+<style>
+    .picture-box {
+        width: 250px;
+        height: 250px;
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .picture-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-            .picture-box:hover {
-                transform: scale(1.1);
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            }
-
-            .picture-box img {
-                max-width: 100%;
-                max-height: 100%;
-                object-fit: cover;
-                border-radius: 8px;
-            }
-
-        /* ── Podium ─────────────────────────────────── */
-        .podium-stage {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 8px;
-            margin: 0 auto 2rem;
-            max-width: 720px;
+        .picture-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
-        .podium-slot {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
+    /* ── Podium ─────────────────────────────────── */
+    .podium-stage {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 8px;
+        margin: 0 auto 2rem;
+        max-width: 720px;
+    }
 
-        .podium-slot--empty .podium-winner-info {
-            visibility: hidden;
-        }
+    .podium-slot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+    }
 
-        /* winner card above the block */
-        .podium-winner-info {
-            text-align: center;
-            padding: 10px 8px;
-            margin-bottom: 6px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            width: 100%;
-        }
+    .podium-slot--empty .podium-winner-info {
+        visibility: hidden;
+    }
 
-        .podium-medal {
-            font-size: 2.2rem;
-            line-height: 1;
-        }
+    /* winner card above the block */
+    .podium-winner-info {
+        text-align: center;
+        padding: 10px 8px;
+        margin-bottom: 6px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 10px;
+        width: 100%;
+    }
 
-        .podium-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            word-break: break-word;
-            margin: 4px 0;
-        }
+    .podium-medal {
+        font-size: 2.2rem;
+        line-height: 1;
+    }
 
-        .podium-subtitle {
-            font-size: 0.75rem;
-            color: #aaa;
-            line-height: 1.3;
-        }
+    .podium-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        word-break: break-word;
+        margin: 4px 0;
+    }
 
-        .podium-ticket {
-            font-size: 0.8rem;
-            margin-top: 4px;
-            opacity: 0.7;
-        }
+    .podium-subtitle {
+        font-size: 0.75rem;
+        color: #aaa;
+        line-height: 1.3;
+    }
 
-        /* the coloured podium block itself */
-        .podium-block {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px 6px 0 0;
-        }
+    .podium-ticket {
+        font-size: 0.8rem;
+        margin-top: 4px;
+        opacity: 0.7;
+    }
 
-        .podium-block--gold {
-            height: 120px;
-            background: linear-gradient(160deg, #ffe066 0%, #f5a623 60%, #c47f00 100%);
-            box-shadow: 0 4px 18px rgba(245,166,35,0.45);
-        }
+    /* the coloured podium block itself */
+    .podium-block {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px 6px 0 0;
+    }
 
-        .podium-block--silver {
-            height: 85px;
-            background: linear-gradient(160deg, #e8e8e8 0%, #b0b0b0 60%, #808080 100%);
-            box-shadow: 0 4px 14px rgba(150,150,150,0.35);
-        }
+    .podium-block--gold {
+        height: 120px;
+        background: linear-gradient(160deg, #ffe066 0%, #f5a623 60%, #c47f00 100%);
+        box-shadow: 0 4px 18px rgba(245,166,35,0.45);
+    }
 
-        .podium-block--bronze {
-            height: 60px;
-            background: linear-gradient(160deg, #f0c080 0%, #cd7f32 60%, #8b4513 100%);
-            box-shadow: 0 4px 14px rgba(205,127,50,0.35);
-        }
+    .podium-block--silver {
+        height: 85px;
+        background: linear-gradient(160deg, #e8e8e8 0%, #b0b0b0 60%, #808080 100%);
+        box-shadow: 0 4px 14px rgba(150,150,150,0.35);
+    }
 
-        .podium-rank {
-            font-size: 2rem;
-            font-weight: 900;
-            color: rgba(0,0,0,0.35);
-            user-select: none;
-        }
-    </style>
+    .podium-block--bronze {
+        height: 60px;
+        background: linear-gradient(160deg, #f0c080 0%, #cd7f32 60%, #8b4513 100%);
+        box-shadow: 0 4px 14px rgba(205,127,50,0.35);
+    }
+
+    .podium-rank {
+        font-size: 2rem;
+        font-weight: 900;
+        color: rgba(0,0,0,0.35);
+        user-select: none;
+    }
+</style>
