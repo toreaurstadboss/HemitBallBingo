@@ -125,9 +125,11 @@ namespace HemitBallBingo2025.Controllers
             string imagePath = drawCount switch
             {
                 1 => "../images/stairs.png",
-                6 or 11 => "../images/guardsrules.png",
-                2 or 7 or 12 => "../images/piggybank.png",
-                3 or 8 or 13 => "../images/scared.png",
+                6 or 11 => "../images/player100.png",
+                2 => "../images/player390.png",
+                7 or 12 => "../images/piggybank.png",
+                13 => "../images/player456andfrontman.png",
+                3 or 8 => "../images/scared.png",
                 4 or 9 or 14 => "../images/thebully.png",
                 5 or 10 or 15 => "../images/mommasboy.png",
                 _ => "../images/stairs.png"           
