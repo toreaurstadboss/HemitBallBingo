@@ -9,12 +9,16 @@ namespace HemitBallBingo2025.ViewModels
         public int DrawId { get; set; }
         public LotteryDraw? LotteryDraw { get; set; }
 
+        public string TicketsRaw { get; set; } = string.Empty;
+
+        public bool ShowRawTicketInput { get; set; } = true;
+
         // Allow up to 10 tickets
         public List<TicketInputModel> Tickets { get; set; }
 
         public TicketsViewModel()
         {
-            Tickets = new List<TicketInputModel>(); 
+            Tickets = new List<TicketInputModel>();
 
             // Initialize with 10 empty slots
             for (int i = 0; i < 10; i++)
@@ -32,5 +36,4 @@ namespace HemitBallBingo2025.ViewModels
     {
         public string OwnerName { get; set; }
     }
-
 }

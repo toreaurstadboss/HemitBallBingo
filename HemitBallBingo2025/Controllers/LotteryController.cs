@@ -244,28 +244,77 @@ namespace HemitBallBingo2025.Controllers
                 .DefaultIfEmpty(0)
                 .Max();
 
-            // Collect valid tickets (OwnerName not empty)
-            var ticketsToAdd = new List<Ticket>();
-            foreach (var ticketInput in model.Tickets)
-            {
-                if (!string.IsNullOrWhiteSpace(ticketInput.OwnerName))
-                {
-                    maxTicketNumber++; // increment for next available number
-                    int ticketNumber = maxTicketNumber;
+            List<string> registeredTicketOwnerNames = _context.Tickets
+                .Where(t => t.LotteryDrawId == model.DrawId)
+                .Select(t => t.OwnerName)
+                .Distinct()
+                .ToList();
 
-                    ticketsToAdd.Add(new Ticket
+            // Collect valid tickets (non-emtpy ticket owner names / participants of the Bingo draw = lodd trekningen)
+            var ticketsToAdd = new List<Ticket>();
+
+            bool isAnyUserEntered = false; //this flag tells if any user is added to the Tickets 
+
+            if (!string.IsNullOrWhiteSpace(model.TicketsRaw?.Trim()))
+            {
+                var rawParticipants = model.TicketsRaw.Split(new[] { '\r', '\n', ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var participant in rawParticipants)
+                {
+                    string participantName = participant.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(participant))
                     {
-                        OwnerName = ticketInput.OwnerName.Trim(),
-                        TicketNumber = ticketNumber,
-                        LotteryDrawId = model.DrawId
-                    });
+                        if (registeredTicketOwnerNames.Contains(participantName))
+                        {
+                            continue; // Skip if this participant already has a ticket
+                        }
+
+                        maxTicketNumber++;
+                        int ticketNumber = maxTicketNumber;                     
+
+                        ticketsToAdd.Add(new Ticket
+                        {
+                            OwnerName = participantName,
+                            TicketNumber = ticketNumber,
+                            LotteryDrawId = model.DrawId
+                        });
+                        isAnyUserEntered = true;
+                    }
+                }
+            }
+
+            if (!isAnyUserEntered)
+            {
+
+                foreach (var ticketInput in model.Tickets)
+                {
+                    if (!string.IsNullOrWhiteSpace(ticketInput.OwnerName))
+                    {
+                        maxTicketNumber++; // increment for next available number
+                        int ticketNumber = maxTicketNumber;
+
+                        string participantName = ticketInput.OwnerName.Trim();
+
+                        if (!registeredTicketOwnerNames.Contains(participantName))
+                        {
+                            continue; // Skip if this participant already has a ticket
+                        }
+
+                        ticketsToAdd.Add(new Ticket
+                        {
+                            OwnerName = participantName,
+                            TicketNumber = ticketNumber,
+                            LotteryDrawId = model.DrawId
+                        });
+                        isAnyUserEntered = true;
+                    }
                 }
             }
 
             // Block if no tickets entered
-            if (!ticketsToAdd.Any())
+            if (!isAnyUserEntered)
             {
-                ModelState.AddModelError("", "Please enter at least one Owner Name.");
+                ModelState.AddModelError("", "Please enter at least one Owner Name to participate in the Lottery Draw.");
                 model.LotteryDraw = draw;
                 model.DrawId = draw.Id;
                 return View(model);
@@ -276,6 +325,7 @@ namespace HemitBallBingo2025.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
+
         }
 
     }
