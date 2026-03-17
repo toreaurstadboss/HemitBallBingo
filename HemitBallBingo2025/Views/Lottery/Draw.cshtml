@@ -1,6 +1,8 @@
 ﻿@using HemitBallBingo2025.ViewModels
 @model DrawViewModel
 
+<link rel="stylesheet" href="~/css/draw.css" />
+
 <a href="~/Lottery/Index" class="btn btn-info">🔙 Vis trekninger</a>
 
 <div class="float-end">
@@ -14,7 +16,7 @@
         }
     </div>
 
-    <h5>Bingo-lodd igjen i lodd-bolla :  (@Model.Tickets.Count)</h5>
+    <h5>LODD I BOLLA :  <span style="font-size:3rem;font-family:'Microsoft Sans Serif'">(@Model.Tickets.Count)</span></h5>
 
 </div>
 
@@ -30,10 +32,13 @@
 
     <div class="text-center mb-2">
         <form asp-action="DrawNextTicket" asp-controller="Lottery" method="post" role="form">
-
             <input type="hidden" name="drawId" value="@Model.DrawId" />
-            <button type="submit" class="btn btn-outline-success btn-lg" title="Klikk her for å trekke neste lodd!">
-                <i class="fas fa-random"></i> Trekk neste lodd !
+            <button type="submit" class="draw-btn" title="Klikk her for å trekke neste lodd!">
+                <span class="draw-btn__icons">
+                    <i class="fas fa-ticket-alt"></i>
+                    <i class="fas fa-dice draw-btn__dice"></i>
+                </span>
+                <span class="draw-btn__label">Trekk neste lodd!</span>
             </button>
         </form>
     </div>
@@ -42,15 +47,15 @@
 
 @if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
 {
-    <div class="drawn-ticket-container">
-        <div class="drawn-ticket-message show">
+    <div class="drawn-ticket-container text-center my-3">
+        <div class="drawn-ticket-message show d-flex flex-column align-items-center gap-1">
             <i class="fas fa-smile text-warning display-6"></i>
-            <span class="display-4 text-uppercase">@Model.LastDrawnMessage</span>
+            <h2 class="text-uppercase mb-3" style="white-space: pre-line;">@Model.LastDrawnMessage</h2>
         </div>
     </div>
 }
 
-<!-- List of winners in the lottery draw -->
+<!-- List of winners in the lottery draw -->                        
 @if (Model.ThirdPrize != null || Model.SecondPrize != null || Model.FirstPrize != null)
 {
     <h3 class="text-center text-warning mb-3">🏆 Gratulerer til vinnere! 🏆</h3>
@@ -129,118 +134,3 @@
     </div>
 
 </div>
-
-
-<style>
-    .picture-box {
-        width: 250px;
-        height: 250px;
-        background-color: #f8f9fa;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-        .picture-box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .picture-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-    /* ── Podium ─────────────────────────────────── */
-    .podium-stage {
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        gap: 8px;
-        margin: 0 auto 2rem;
-        max-width: 720px;
-    }
-
-    .podium-slot {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-    }
-
-    .podium-slot--empty .podium-winner-info {
-        visibility: hidden;
-    }
-
-    /* winner card above the block */
-    .podium-winner-info {
-        text-align: center;
-        padding: 10px 8px;
-        margin-bottom: 6px;
-        background: rgba(255,255,255,0.05);
-        border-radius: 10px;
-        width: 100%;
-    }
-
-    .podium-medal {
-        font-size: 2.2rem;
-        line-height: 1;
-    }
-
-    .podium-name {
-        font-size: 1.25rem;
-        font-weight: 700;
-        word-break: break-word;
-        margin: 4px 0;
-    }
-
-    .podium-subtitle {
-        font-size: 0.75rem;
-        color: #aaa;
-        line-height: 1.3;
-    }
-
-    .podium-ticket {
-        font-size: 0.8rem;
-        margin-top: 4px;
-        opacity: 0.7;
-    }
-
-    /* the coloured podium block itself */
-    .podium-block {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px 6px 0 0;
-    }
-
-    .podium-block--gold {
-        height: 120px;
-        background: linear-gradient(160deg, #ffe066 0%, #f5a623 60%, #c47f00 100%);
-        box-shadow: 0 4px 18px rgba(245,166,35,0.45);
-    }
-
-    .podium-block--silver {
-        height: 85px;
-        background: linear-gradient(160deg, #e8e8e8 0%, #b0b0b0 60%, #808080 100%);
-        box-shadow: 0 4px 14px rgba(150,150,150,0.35);
-    }
-
-    .podium-block--bronze {
-        height: 60px;
-        background: linear-gradient(160deg, #f0c080 0%, #cd7f32 60%, #8b4513 100%);
-        box-shadow: 0 4px 14px rgba(205,127,50,0.35);
-    }
-
-    .podium-rank {
-        font-size: 2rem;
-        font-weight: 900;
-        color: rgba(0,0,0,0.35);
-        user-select: none;
-    }
-</style>

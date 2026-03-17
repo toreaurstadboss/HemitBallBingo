@@ -15,20 +15,7 @@
 
 @if (!string.IsNullOrEmpty(Model.LastDrawnMessage))
 {
-    <div class="drawn-ticket-container">
-        <div class="drawn-ticket-message show">
-            <i class="fas fa-times-circle"></i>
-            <span>@Model.LastDrawnMessage</span>
-        </div>
-    </div>
+    <h3 class="text-center text-warning mb-3">
+        <i class="fas fa-times-circle"></i> @Model.LastDrawnMessage
+    </h3>
 }
-
-<!-- Badge list for remaining tickets -->
-<div class="d-flex flex-wrap gap-2 mt-4">
-    @foreach (var ticket in Model.Tickets)
-    {
-        <span class="badge bg-primary text-white fs-5 px-3 py-2">
-            @ticket.OwnerName
-        </span>
-    }
-</div>

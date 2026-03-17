@@ -187,16 +187,16 @@ namespace HemitBallBingo2025.Controllers
                 // Prize logic based on remaining tickets
                 message = tickets.Count switch
                 {
-                    3 => $"🏅 Winner 3rd Prize! {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
-                    2 => $"🥈 Winner 2nd Prize! {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
-                    1 => $"🥇 Winner 1st Prize! {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
-                    _ => $"Better Luck Next Time: {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})"
+                    3 => $"🏅 Winner 3rd Prize! {Environment.NewLine} {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
+                    2 => $"🥈 Winner 2nd Prize! {Environment.NewLine} {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
+                    1 => $"🥇 Winner 1st Prize! {Environment.NewLine} {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})",
+                    _ => $"Better Luck Next Time: {Environment.NewLine} {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})"
                 };
                 drawnTicket.PrizeNumber = tickets.Count; // 3 for third, 2 for second, 1 for first
             }
             else
             {
-                message = $"Bedre lykke neste gang:{Environment.NewLine} {drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})";
+                message = $"Bedre lykke neste gang:  " + $"{Environment.NewLine}" + $"{drawnTicket.OwnerName} (Ticket #{drawnTicket.TicketNumber})";
             }
 
             TempData["DrawnTicket"] = message;
